@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 
 import "../globals.css";
 
@@ -13,17 +13,6 @@ import {
 } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { notFound } from "next/navigation";
-
-/**
- * Inter, not the scaffold's Geist: we need a Cyrillic subset for the Russian
- * locale, and a high-legibility neutral sans rather than a display face
- * (CLAUDE.md §20 Typography).
- */
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "latin-ext", "cyrillic"],
-  display: "swap",
-});
 
 /**
  * Wordmark only — Button's logo is set in a geometric rounded lowercase sans,
@@ -88,7 +77,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={localeHtmlLang[typedLocale]}
-      className={`${inter.variable} ${poppins.variable} h-full antialiased`}
+      className={`${poppins.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         <Header

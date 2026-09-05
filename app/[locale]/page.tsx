@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CategoryTile } from "@/components/catalog/CategoryTile";
 import { ProductCard } from "@/components/product/ProductCard";
 import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { categories, getFeaturedProducts, stores } from "@/lib/mock-data";
-import { BUTTON_PHONE } from "@/lib/telegram";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -28,32 +28,35 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <>
       {/*
-        HERO — deliberately compact. This is not a luxury brand site; a
-        full-screen silent hero would push the actual products below the fold
-        and signal "expensive" (CLAUDE.md §1, §20).
+        HERO — full-bleed banner, the Uniqlo pattern. Deliberately compact in
+        height: a full-screen silent hero pushes product below the fold and
+        signals "expensive", which is wrong for this business (CLAUDE.md §1).
+
+        Currently a brand-purple panel. When Button supplies a campaign photo,
+        this becomes a background image with the same text block over it.
       */}
-      <section className="border-b border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-10 sm:py-14">
-          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-fg-muted">
+      <section className="bg-brand">
+        <div className="mx-auto flex max-w-[1400px] flex-col gap-4 px-4 py-12 sm:py-16 md:py-20">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-ink/70">
             {dict.brand.tagline}
           </p>
-          <h1 className="mt-3 max-w-2xl text-3xl font-bold leading-tight tracking-tight text-fg sm:text-4xl md:text-5xl">
+          <h1 className="max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight text-brand-ink sm:text-5xl md:text-6xl">
             {dict.hero.title}
           </h1>
-          <p className="mt-3 max-w-xl text-sm text-fg-muted sm:text-base">
+          <p className="max-w-xl text-sm text-brand-ink/80 sm:text-base">
             {dict.hero.subtitle}
           </p>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-2 flex flex-wrap gap-3">
             <Link
               href={`/${locale}/katalog`}
-              className="rounded-lg bg-brand px-5 py-3 text-sm font-semibold text-brand-ink transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="bg-bg px-7 py-3.5 text-sm font-bold text-fg transition hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {dict.hero.ctaPrimary}
             </Link>
             <Link
               href={`/${locale}/dokonlar`}
-              className="rounded-lg border border-border bg-bg px-5 py-3 text-sm font-semibold text-fg transition hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="border border-brand-ink/40 px-7 py-3.5 text-sm font-bold text-brand-ink transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               {dict.hero.ctaSecondary}
             </Link>
@@ -61,43 +64,41 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </section>
 
-      {/* CATEGORIES */}
-      <section className="mx-auto max-w-6xl px-4 py-10">
-        <h2 className="text-xl font-bold tracking-tight text-fg">
+      {/* CATEGORIES — image tiles, not a text directory. */}
+      <section className="mx-auto max-w-[1400px] px-4 py-10 sm:py-14">
+        <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
           {dict.sections.categories}
         </h2>
-        <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">
-          {categories.map((category) => (
-            <li key={category.id}>
-              <Link
-                href={`/${locale}/katalog/${category.slug}`}
-                className="flex items-center justify-between rounded-lg border border-border bg-bg px-4 py-3 text-sm font-medium text-fg transition hover:border-brand hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-              >
-                {category.name[typedLocale]}
-                <span aria-hidden="true" className="text-fg-muted">
-                  ›
-                </span>
-              </Link>
-            </li>
+        <div className="mt-4 grid grid-cols-2 gap-x-3 gap-y-6 sm:grid-cols-3 lg:grid-cols-4">
+          {categories.map((category, i) => (
+            <CategoryTile
+              key={category.id}
+              href={`/${locale}/katalog/${category.slug}`}
+              label={category.name[typedLocale]}
+              priority={i < 4}
+            />
           ))}
-        </ul>
+        </div>
       </section>
 
-      {/* NEW ARRIVALS — dense grid: 2 columns on mobile, 4 on desktop (§20). */}
-      <section className="mx-auto max-w-6xl px-4 pb-10">
-        <div className="flex items-baseline justify-between gap-4">
-          <h2 className="text-xl font-bold tracking-tight text-fg">
+      {/*
+        NEW ARRIVALS — dense grid, tight gutters, no card chrome. 2 columns on
+        mobile and 4 on desktop, so the page reads as a wall of product.
+      */}
+      <section className="mx-auto max-w-[1400px] px-4 pb-12">
+        <div className="flex items-baseline justify-between gap-4 border-t border-border pt-8">
+          <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
             {dict.sections.newArrivals}
           </h2>
           <Link
             href={`/${locale}/katalog`}
-            className="text-sm font-medium text-fg-muted underline-offset-4 transition hover:text-fg hover:underline"
+            className="text-[13px] font-medium text-fg underline-offset-4 hover:underline"
           >
-            {dict.sections.viewAll}
+            {dict.sections.viewAll} →
           </Link>
         </div>
 
-        <div className="mt-5 grid grid-cols-2 gap-x-4 gap-y-8 md:grid-cols-4">
+        <div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-4">
           {featured.map((product, i) => (
             <ProductCard
               key={product.id}
@@ -113,31 +114,28 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       {/* STORES — Button's real advantage over a marketplace is being a real
           shop with a real address (CLAUDE.md §2). */}
       <section className="border-t border-border bg-surface">
-        <div className="mx-auto max-w-6xl px-4 py-10">
-          <h2 className="text-xl font-bold tracking-tight text-fg">
+        <div className="mx-auto max-w-[1400px] px-4 py-12">
+          <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
             {dict.sections.ourStores}
           </h2>
 
           <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {stores.map((store) => (
-              <li
-                key={store.id}
-                className="rounded-lg border border-border bg-bg p-4"
-              >
-                <h3 className="text-sm font-semibold text-fg">
+              <li key={store.id} className="bg-bg p-5">
+                <h3 className="text-sm font-bold text-fg">
                   {store.name[typedLocale]}
                 </h3>
-                <p className="mt-1 text-sm leading-relaxed text-fg-muted">
+                <p className="mt-1.5 text-[13px] leading-relaxed text-fg-muted">
                   {store.address[typedLocale]}
                 </p>
                 <p className="tabular mt-2 text-xs text-fg-muted">
                   {dict.stores.everyDay} {store.hoursOpen} — {store.hoursClose}
                 </p>
 
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-wrap gap-2">
                   <a
                     href={telHref(store.phone)}
-                    className="tabular rounded-md border border-border px-3 py-1.5 text-xs font-medium text-fg transition hover:bg-surface"
+                    className="tabular border border-fg px-3 py-2 text-xs font-bold text-fg transition hover:bg-fg hover:text-bg"
                   >
                     {formatPhone(store.phone)}
                   </a>
@@ -146,7 +144,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                       href={store.yandexMapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-md border border-border px-3 py-1.5 text-xs font-medium text-fg transition hover:bg-surface"
+                      className="border border-border px-3 py-2 text-xs font-medium text-fg transition hover:border-fg"
                     >
                       {dict.stores.viewOnMap}
                     </a>
@@ -155,16 +153,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               </li>
             ))}
           </ul>
-
-          <p className="tabular mt-6 text-sm text-fg-muted">
-            {dict.footer.contactUs}:{" "}
-            <a
-              href={telHref(BUTTON_PHONE)}
-              className="font-medium text-fg underline-offset-4 hover:underline"
-            >
-              {formatPhone(BUTTON_PHONE)}
-            </a>
-          </p>
         </div>
       </section>
     </>

@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { PriceTag } from "@/components/product/PriceTag";
 import { ProductImage } from "@/components/product/ProductImage";
-import { StockBadge } from "@/components/product/StockBadge";
 import type { Locale } from "@/lib/i18n/config";
 import { availabilityOf, sizesOf, type Product } from "@/lib/types";
 
@@ -24,10 +23,14 @@ interface ProductCardProps {
  * The atom of the entire site — build and review this before anything else,
  * at 360px width first (CLAUDE.md §20).
  *
- * Shows price and sizes directly on the card, because the customer's real
- * question is "do they have this in my size, for a price I can afford?"
- * (CLAUDE.md §1). Note it renders aggregate availability only: per-branch stock
- * is loaded on the product page, never per card in a grid (CLAUDE.md §21.2).
+ * Anatomy follows Uniqlo: full-bleed square-cornered photo, a promotional flag
+ * over the image, then name in REGULAR weight, then a bold price. The name is
+ * not bold because the photo and the price are what the eye should land on.
+ * There is no card border and no shadow — cards sit directly on white so the
+ * grid reads as a wall of product, not a wall of boxes.
+ *
+ * Renders aggregate availability only: per-branch stock is loaded on the
+ * product page, never per card in a grid (CLAUDE.md §21.2).
  */
 export function ProductCard({
   product,
@@ -39,13 +42,23 @@ export function ProductCard({
   const sizes = sizesOf(product);
   const isOut = availability === "OUT_OF_STOCK";
 
+  // Distinct colours, in variant order, for the swatch row.
+  const swatches = [
+    ...new Map(
+      product.variants.map((v) => [
+        v.colorHex,
+        { hex: v.colorHex, name: v.colorName[locale] },
+      ]),
+    ).values(),
+  ];
+
   return (
     <Link
       href={`/${locale}/mahsulot/${product.slug}`}
-      className="group flex flex-col gap-2.5 rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+      className="group block focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
     >
-      <div className="relative overflow-hidden rounded-lg">
-        <div className={isOut ? "opacity-55 transition" : "transition"}>
+      <div className="relative overflow-hidden">
+        <div className={isOut ? "opacity-45" : ""}>
           <ProductImage
             src={product.images[0]?.url}
             alt={product.name[locale]}
@@ -54,15 +67,23 @@ export function ProductCard({
           />
         </div>
 
+        {/* Promotional flag — red, square, no radius. Uniqlo's convention. */}
         {product.oldPrice && !isOut ? (
-          <span className="absolute left-2 top-2 rounded bg-sale px-2 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-white">
+          <span className="absolute left-0 top-0 bg-sale px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             {t.sale}
+          </span>
+        ) : null}
+
+        {isOut ? (
+          <span className="absolute left-0 top-0 bg-fg px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+            {t.outOfStock}
           </span>
         ) : null}
       </div>
 
-      <div className="flex flex-col gap-1.5">
-        <h3 className="text-sm font-medium leading-snug text-fg group-hover:underline">
+      <div className="flex flex-col gap-1.5 pt-2.5">
+        {/* Regular weight, tight leading — the photo leads, not the label. */}
+        <h3 className="text-[13px] font-normal leading-snug text-fg group-hover:underline">
           {product.name[locale]}
         </h3>
 
@@ -73,32 +94,26 @@ export function ProductCard({
           size="md"
         />
 
-        <StockBadge
-          availability={availability}
-          labels={{
-            inStock: t.inStock,
-            lowStock: t.lowStock,
-            outOfStock: t.outOfStock,
-          }}
-        />
-
-        {/* Sizes at a glance — the question customers actually arrive with. */}
-        {sizes.length > 0 ? (
-          <ul className="flex flex-wrap gap-1 pt-0.5">
-            {sizes.slice(0, 6).map((size) => (
+        {swatches.length > 1 ? (
+          <ul className="flex flex-wrap items-center gap-1 pt-0.5">
+            {swatches.slice(0, 5).map((c) => (
               <li
-                key={size}
-                className="tabular rounded border border-border px-1.5 py-0.5 text-[11px] text-fg-muted"
-              >
-                {size}
-              </li>
+                key={c.hex}
+                title={c.name}
+                className="size-3 rounded-full border border-border"
+                style={{ backgroundColor: c.hex }}
+              />
             ))}
-            {sizes.length > 6 ? (
-              <li className="px-1 py-0.5 text-[11px] text-fg-muted">
-                +{sizes.length - 6}
-              </li>
-            ) : null}
           </ul>
+        ) : null}
+
+        {/* Sizes at a glance — the question customers actually arrive with,
+            and something neither Terra Pro nor JUST shows on the card. */}
+        {sizes.length > 0 && !isOut ? (
+          <p className="tabular text-[11px] leading-snug text-fg-muted">
+            {sizes.slice(0, 7).join("  ")}
+            {sizes.length > 7 ? ` +${sizes.length - 7}` : ""}
+          </p>
         ) : null}
       </div>
     </Link>

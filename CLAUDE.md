@@ -870,6 +870,45 @@ not an aspiration — a beautiful page that arrives late has already lost.
 - Dark mode is **out of scope for v1**. The tokens are structured to allow it later; do not
   build it now.
 
+### The reference is Uniqlo (client's choice, and the right one)
+
+[uniqlo.com](https://www.uniqlo.com/eu-at/en/men) is the agreed design target. It suits Button
+far better than a fashion-house look: high information density, price forward, photography
+doing all the selling — an accessible retailer that still feels considered.
+
+Their real tokens, extracted from `brand-global-ec-uikit.css` (2026-09-06):
+
+```
+#fff  #000        pure black on pure white — the base, nearly all of the page
+#f4f4f4           surface          #dadada  border
+#6a6a6a           secondary text   #767676  placeholder   #ababab  disabled
+#e00              ONE accent — semantically "promotional"/error only
+body font         Helvetica Neue → Arial → system-ui   (no webfont for body text)
+display font      UniqloProBold / UniqloProLight        (brand face, headings only)
+motion            300ms standard, cubic-bezier(0.4, 0, 0.2, 1)
+```
+
+**The lesson, and the whole reason it looks good: the chrome disappears.** No card borders, no
+shadows, no rounded corners on product images, no gradients. Pure white page, black text, one
+disciplined grey ramp. Saturated colour appears *only* where it carries meaning — red means
+promotion, never decoration. The clothes are the only colourful thing on screen.
+
+**What we adopt:** the neutral ramp (now our `--surface`/`--border`/`--fg-muted`/`--fg-disabled`),
+square corners on product imagery, borderless cards on white, product name in *regular* weight
+with the price bold, a strictly uniform 4:5 image ratio, full-bleed hero, image-led category
+tiles, and their easing.
+
+**Where we deliberately differ:**
+- **Button's accent is purple, not red.** Purple carries identity and the primary CTA; red is
+  kept for sale/promotional pricing, exactly as Uniqlo uses it. Two colours, two jobs, no overlap.
+- **The wordmark stays geometric (Poppins interim), not Helvetica.** Button's *own logo* is a
+  geometric rounded lowercase face, and the logo outranks the Uniqlo reference on this one
+  element. Everything else on the page uses the Uniqlo stack.
+
+> ⚠ **This design only works with real photography.** Uniqlo's layout is ~80% photograph by
+> area. The same layout with placeholders is a wireframe. Photos are the gating item (§17 ask #4)
+> — drop them in `public/products/` per the README there.
+
 ### Visual direction (from §1 — affordable, not luxury)
 
 | Do | Don't |
@@ -886,9 +925,22 @@ The mental benchmark is a **fast, trustworthy local retailer** — closer to Uni
 information density than to a fashion house. `Sifat • Uslub • Qulay narx` is their own line;
 the design should make all three legible at a glance.
 
-### Typography
-- One family, three weights (400/500/700). Latin + **Cyrillic subset required** for `ru`.
-- Verify the chosen face renders `o'` / `g'` and Cyrillic correctly before committing to it.
+### Typography — matched to Uniqlo
+
+```css
+--font-sans:    "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system, sans-serif;
+--font-display: var(--font-poppins), var(--font-sans);   /* wordmark only */
+```
+
+- **The body stack is copied verbatim from Uniqlo's CSS.** It is pure system fonts, so it
+  downloads **zero bytes** — which is both what Uniqlo actually does and part of how we beat
+  just2010.uz on speed.
+- **Cyrillic is safe without a webfont**: Arial ships Cyrillic on Windows, Helvetica Neue on
+  macOS/iOS, and on Android "Helvetica" resolves to Roboto. Uzbek Latin `o'` / `g'` render
+  everywhere. This is why we could drop Inter.
+- **`UniqloProBold` / `UniqloProLight` are proprietary licensed faces — we cannot use them.**
+  Headings use the same system stack at bold weight. Do not try to substitute a lookalike.
+- Weights: 400 body, 500 emphasis, 700 headings and prices.
 - Price uses **tabular numerals** so grids don't jitter: `font-variant-numeric: tabular-nums`.
 
 ### Components to build first (in this order)

@@ -18,19 +18,28 @@
   --brand-hover: #3b0c68;
   --brand-muted: #f4f0f9;
 
-  /* ── NEUTRALS ── independent of brand; do not change when the logo lands */
+  /* ── NEUTRALS ────────────────────────────────────────────────────────────
+     Ladder modelled on Uniqlo's own tokens (CLAUDE.md §20). The point is that
+     chrome should almost disappear so product photography carries the page.
+     Pure black on pure white, with a disciplined grey ramp between.          */
   --bg: #ffffff;
-  --surface: #fafafa;
-  --border: #e5e5e5;
-  --fg: #171717;
-  --fg-muted: #6b7280;
+  --surface: #f4f4f4;
+  --border: #dadada;
+  --fg: #000000;
+  --fg-muted: #6a6a6a;
+  --fg-placeholder: #767676;
+  --fg-disabled: #ababab;
 
   /* ── SEMANTIC ── fixed meanings. Never reuse these decoratively, and never
      let the brand colour take one of these jobs. */
   --in-stock: #16a34a;
   --low-stock: #d97706;
-  --out-of-stock: #9ca3af;
-  --sale: #dc2626;
+  --out-of-stock: #ababab;
+  --sale: #ee0000;
+
+  /* ── MOTION ── Uniqlo's easing and durations; restrained, never bouncy. */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration: 200ms;
 }
 
 @theme inline {
@@ -44,14 +53,23 @@
   --color-border: var(--border);
   --color-fg: var(--fg);
   --color-fg-muted: var(--fg-muted);
+  --color-fg-placeholder: var(--fg-placeholder);
+  --color-fg-disabled: var(--fg-disabled);
 
   --color-in-stock: var(--in-stock);
   --color-low-stock: var(--low-stock);
   --color-out-of-stock: var(--out-of-stock);
   --color-sale: var(--sale);
 
-  --font-sans: var(--font-inter), system-ui, sans-serif;
-  --font-display: var(--font-poppins), var(--font-inter), system-ui, sans-serif;
+  /* Uniqlo's own body stack, copied exactly (CLAUDE.md §20). All of these
+     carry Cyrillic — Arial does, and on Android "Helvetica" resolves to
+     Roboto — so the Russian locale is safe without a webfont. Costs zero
+     bytes, which is part of how we beat just2010.uz on speed. */
+  --font-sans: "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system,
+    sans-serif;
+  /* Wordmark only. Matches Button's LOGO, which is geometric — the logo wins
+     over the Uniqlo reference here. */
+  --font-display: var(--font-poppins), var(--font-sans);
 }
 
 body {
