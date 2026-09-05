@@ -1,0 +1,69 @@
+import "server-only";
+
+import fs from "node:fs";
+import path from "node:path";
+
+/**
+ * Locates Button's logo artwork.
+ *
+ * The wordmark is custom lettering, not a font — geometric monoline forms with
+ * a distinctive hooked `t` that no webfont reproduces exactly. Approximating it
+ * with Poppins was always a stand-in. Real brands ship the logo as artwork, so
+ * the moment a file exists we use it and stop guessing.
+ *
+ * Drop files in `public/brand/` (see the README there). SVG is preferred and is
+ * picked first; PNG is accepted. Missing files fall back to a text wordmark, so
+ * the header is never broken.
+ */
+
+const BRAND_DIR = path.join(process.cwd(), "public", "brand");
+
+/** Preference order: vector first, then raster. */
+const CANDIDATES = {
+  /** Full lock-up: monogram + "button" wordmark. */
+  full: ["logo.svg", "logo.png", "logo.webp"],
+  /** Horizontal wordmark alone — best for a slim header. */
+  wordmark: ["wordmark.svg", "wordmark.png", "wordmark.webp"],
+  /** Circular `bttn` monogram — favicon, app icon, compact header. */
+  mark: ["mark.svg", "mark.png", "mark.webp"],
+} as const;
+
+function findFirst(files: readonly string[]): string | undefined {
+  for (const file of files) {
+    if (fs.existsSync(path.join(BRAND_DIR, file))) return `/brand/${file}`;
+  }
+  return undefined;
+}
+
+export interface BrandAssets {
+  full?: string;
+  wordmark?: string;
+  mark?: string;
+}
+
+export function getBrandAssets(): BrandAssets {
+  return {
+    full: findFirst(CANDIDATES.full),
+    wordmark: findFirst(CANDIDATES.wordmark),
+    mark: findFirst(CANDIDATES.mark),
+  };
+}
+
+/**
+ * Hero campaign image, from `public/hero/`.
+ *
+ * Returns undefined when no file exists, and the hero falls back to the plain
+ * brand gradient — so the homepage looks finished either way.
+ */
+export function getHeroImage(): string | undefined {
+  const dir = path.join(process.cwd(), "public", "hero");
+  try {
+    const file = fs
+      .readdirSync(dir)
+      .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
+      .sort()[0];
+    return file ? `/hero/${file}` : undefined;
+  } catch {
+    return undefined;
+  }
+}

@@ -11,7 +11,10 @@
     "contact": "Aloqa",
     "wishlist": "Saralangan",
     "menu": "Menyu",
-    "close": "Yopish"
+    "close": "Yopish",
+    "search": "Qidirish",
+    "searchPlaceholder": "Mahsulot qidirish",
+    "account": "Hisobim"
   },
   "hero": {
     "title": "Sifatli erkaklar kiyimlari",
@@ -23,7 +26,8 @@
     "newArrivals": "Yangi kelganlar",
     "categories": "Kategoriyalar",
     "ourStores": "Bizning do'konlar",
-    "viewAll": "Barchasini ko'rish"
+    "viewAll": "Barchasini ko'rish",
+    "allCategories": "Barcha kategoriyalar"
   },
   "product": {
     "soum": "so'm",
@@ -57,5 +61,25 @@
     "loading": "Yuklanmoqda…",
     "notFound": "Sahifa topilmadi",
     "backHome": "Bosh sahifaga qaytish"
+  },
+  "wishlist": {
+    "title": "Saralangan",
+    "empty": "Sizda hali saralangan mahsulot yo'q",
+    "emptyCta": "Katalogga o'tish",
+    "add": "Saralanganga qo'shish",
+    "remove": "Saralangandan olib tashlash"
+  },
+  "account": {
+    "title": "Hisobim",
+    "soon": "Shaxsiy kabinet tez orada",
+    "description": "Hozircha buyurtma berish uchun Telegram yoki telefon orqali bog'laning. Do'konlarimizga ham tashrif buyurishingiz mumkin."
+  },
+  "catalog": {
+    "title": "Katalog",
+    "all": "Barchasi",
+    "count": "ta mahsulot",
+    "noResults": "Hech narsa topilmadi",
+    "noResultsHint": "Boshqa so'z bilan qidirib ko'ring yoki katalogni ko'ring.",
+    "searchedFor": "Qidiruv"
   }
 }

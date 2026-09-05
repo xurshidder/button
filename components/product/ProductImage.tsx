@@ -31,7 +31,7 @@ export function ProductImage({
 }: ProductImageProps) {
   if (src) {
     return (
-      <div className="relative aspect-4/5 w-full overflow-hidden bg-surface">
+      <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl bg-surface">
         <Image
           src={src}
           alt={alt}

@@ -29,7 +29,7 @@ export function LocaleSwitcher({ current }: LocaleSwitcherProps) {
   return (
     <nav
       aria-label="Language"
-      className="flex items-center rounded-md border border-border p-0.5"
+      className="flex items-center rounded-full border border-border p-0.5"
     >
       {locales.map((locale) => {
         const isActive = locale === current;
@@ -39,7 +39,7 @@ export function LocaleSwitcher({ current }: LocaleSwitcherProps) {
             href={`/${locale}${rest}`}
             hrefLang={locale}
             aria-current={isActive ? "true" : undefined}
-            className={`rounded px-2 py-1 text-xs font-medium transition ${
+            className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
               isActive
                 ? "bg-brand text-brand-ink"
                 : "text-fg-muted hover:text-fg"

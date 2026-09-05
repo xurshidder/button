@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Logo } from "@/components/layout/Logo";
 import { formatPhone, telHref } from "@/lib/format";
 import type { Locale } from "@/lib/i18n/config";
 import { stores } from "@/lib/mock-data";
@@ -11,6 +12,7 @@ import {
 
 interface FooterProps {
   locale: Locale;
+  logoSrc?: string;
   t: {
     tagline: string;
     followUs: string;
@@ -24,14 +26,12 @@ interface FooterProps {
   };
 }
 
-export function Footer({ locale, t }: FooterProps) {
+export function Footer({ locale, logoSrc, t }: FooterProps) {
   return (
     <footer className="mt-16 border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="font-display text-2xl lowercase leading-none tracking-tight text-brand">
-            button
-          </p>
+          <Logo src={logoSrc} height={28} />
           <p className="mt-1 text-sm text-fg-muted">{t.tagline}</p>
         </div>
 

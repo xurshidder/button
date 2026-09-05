@@ -2,6 +2,7 @@ import Link from "next/link";
 
 import { PriceTag } from "@/components/product/PriceTag";
 import { ProductImage } from "@/components/product/ProductImage";
+import { WishlistButton } from "@/components/product/WishlistButton";
 import type { Locale } from "@/lib/i18n/config";
 import { availabilityOf, sizesOf, type Product } from "@/lib/types";
 
@@ -15,6 +16,8 @@ interface ProductCardProps {
     outOfStock: string;
     photoPending: string;
     sale: string;
+    wishlistAdd: string;
+    wishlistRemove: string;
   };
   priority?: boolean;
 }
@@ -67,18 +70,24 @@ export function ProductCard({
           />
         </div>
 
-        {/* Promotional flag — red, square, no radius. Uniqlo's convention. */}
+        {/* Promotional flag. Red means "promotional" and nothing else. */}
         {product.oldPrice && !isOut ? (
-          <span className="absolute left-0 top-0 bg-sale px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+          <span className="absolute left-3 top-3 rounded-full bg-sale px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             {t.sale}
           </span>
         ) : null}
 
         {isOut ? (
-          <span className="absolute left-0 top-0 bg-fg px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+          <span className="absolute left-3 top-3 rounded-full bg-fg px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             {t.outOfStock}
           </span>
         ) : null}
+
+        <WishlistButton
+          productId={product.id}
+          labels={{ add: t.wishlistAdd, remove: t.wishlistRemove }}
+          className="absolute right-2 top-2"
+        />
       </div>
 
       <div className="flex flex-col gap-1.5 pt-2.5">

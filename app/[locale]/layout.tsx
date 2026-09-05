@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import "../globals.css";
 
 import { Footer } from "@/components/layout/Footer";
+import { getBrandAssets } from "@/lib/brand";
 import { Header } from "@/components/layout/Header";
 import {
   isLocale,
@@ -73,6 +74,9 @@ export default async function LocaleLayout({
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
+  // Prefer the cropped wordmark in chrome; fall back to the full lock-up.
+  const brand = getBrandAssets();
+  const logoSrc = brand.wordmark ?? brand.full;
 
   return (
     <html
@@ -82,12 +86,16 @@ export default async function LocaleLayout({
       <body className="flex min-h-full flex-col font-sans">
         <Header
           locale={typedLocale}
+          logoSrc={logoSrc}
           t={{
             catalog: dict.nav.catalog,
             stores: dict.nav.stores,
             about: dict.nav.about,
             contact: dict.nav.contact,
-            tagline: dict.brand.tagline,
+            wishlist: dict.nav.wishlist,
+            account: dict.nav.account,
+            search: dict.nav.search,
+            searchPlaceholder: dict.nav.searchPlaceholder,
           }}
         />
 
@@ -95,6 +103,7 @@ export default async function LocaleLayout({
 
         <Footer
           locale={typedLocale}
+          logoSrc={logoSrc}
           t={{
             tagline: dict.brand.tagline,
             followUs: dict.footer.followUs,

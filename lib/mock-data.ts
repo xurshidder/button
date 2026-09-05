@@ -397,6 +397,59 @@ export function getProductBySlug(slug: string): Product | undefined {
   return products.find((p) => p.slug === slug && p.status !== "ARCHIVED");
 }
 
+/**
+ * Catalogue search and filtering.
+ *
+ * Matches across all three locales plus the SKU, so a Russian-speaking customer
+ * browsing the Uzbek site still finds things, and staff can look up an article
+ * number directly. Diacritic-insensitive on the apostrophes Uzbek Latin uses —
+ * nobody types `o'` consistently.
+ *
+ * This is the in-memory stand-in for the Postgres `tsvector` search described
+ * in CLAUDE.md §5. Same inputs, same outputs; only the implementation changes.
+ */
+function normalise(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[''`ʻʼ]/g, "")
+    .trim();
+}
+
+export function searchProducts({
+  query,
+  categorySlug,
+}: {
+  query?: string;
+  categorySlug?: string;
+}): Product[] {
+  let result = getPublishedProducts();
+
+  if (categorySlug) {
+    const category = categories.find((c) => c.slug === categorySlug);
+    if (!category) return [];
+    result = result.filter((p) => p.categoryId === category.id);
+  }
+
+  const q = query ? normalise(query) : "";
+  if (!q) return result;
+
+  return result.filter((product) => {
+    const haystack = [
+      ...Object.values(product.name),
+      ...Object.values(product.description ?? {}),
+      product.sku,
+    ]
+      .map(normalise)
+      .join(" ");
+    // Every whitespace-separated term must appear somewhere.
+    return q.split(/\s+/).every((term) => haystack.includes(term));
+  });
+}
+
+export function getCategoryBySlug(slug: string): Category | undefined {
+  return categories.find((c) => c.slug === slug);
+}
+
 export function getCategoryById(id: string): Category | undefined {
   return categories.find((c) => c.id === id);
 }

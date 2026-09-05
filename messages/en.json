@@ -11,7 +11,10 @@
     "contact": "Contact",
     "wishlist": "Saved",
     "menu": "Menu",
-    "close": "Close"
+    "close": "Close",
+    "search": "Search",
+    "searchPlaceholder": "Search products",
+    "account": "Account"
   },
   "hero": {
     "title": "Quality men's clothing",
@@ -23,7 +26,8 @@
     "newArrivals": "New arrivals",
     "categories": "Categories",
     "ourStores": "Our stores",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "allCategories": "View all categories"
   },
   "product": {
     "soum": "soum",
@@ -57,5 +61,25 @@
     "loading": "Loading…",
     "notFound": "Page not found",
     "backHome": "Back to home"
+  },
+  "wishlist": {
+    "title": "Saved",
+    "empty": "You have not saved any products yet",
+    "emptyCta": "Go to catalog",
+    "add": "Save",
+    "remove": "Remove from saved"
+  },
+  "account": {
+    "title": "Account",
+    "soon": "Personal account coming soon",
+    "description": "For now, order via Telegram or by phone. You are also welcome to visit our stores."
+  },
+  "catalog": {
+    "title": "Catalog",
+    "all": "All",
+    "count": "products",
+    "noResults": "Nothing found",
+    "noResultsHint": "Try a different word, or browse the catalog.",
+    "searchedFor": "Search"
   }
 }
