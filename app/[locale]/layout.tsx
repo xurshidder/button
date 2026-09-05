@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 
 import "../globals.css";
 
@@ -22,6 +22,21 @@ import { notFound } from "next/navigation";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "latin-ext", "cyrillic"],
+  display: "swap",
+});
+
+/**
+ * Wordmark only — Button's logo is set in a geometric rounded lowercase sans,
+ * and Poppins is the closest widely-available match. Loaded at a single weight
+ * because it renders exactly one word on the page.
+ *
+ * TODO: replace the text wordmark with the real logo SVG once the client
+ * supplies the vector file, and drop this font.
+ */
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["600"],
   display: "swap",
 });
 
@@ -73,7 +88,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={localeHtmlLang[typedLocale]}
-      className={`${inter.variable} h-full antialiased`}
+      className={`${inter.variable} ${poppins.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         <Header

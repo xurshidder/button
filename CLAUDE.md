@@ -36,8 +36,13 @@ wants to know a price has to open a chat and ask a human.
 
 **That is the actual product thesis:** we are not building a shop that hopes for traffic.
 We are building the destination for traffic that already exists and is currently being burned
-in a DM queue. Design and load-time decisions should be made with "a 920K-follower Instagram
-link-in-bio tap on a mid-range Android over mobile data" as the reference case.
+in a DM queue.
+
+**But do not confuse audience size with concurrent load.** Followers ≠ simultaneous visitors —
+the realistic peak is far smaller than the follower count suggests, and §21.1 does the
+arithmetic. The follower count matters because it means **demand is not the constraint**; it
+does not mean we need heavy infrastructure. The reference case for every design and performance
+decision is one person: *an Instagram link-in-bio tap on a mid-range Android over mobile data.*
 
 ### 1.2 `button.uz` is already theirs — and it's empty
 
@@ -48,10 +53,48 @@ Content: the default "Web Server Test Page" for AlmaLinux
 HTTPS: broken — cert is for dns1.webspace.uz, not button.uz
 ```
 
-Someone bought the domain, paid for local hosting, pointed DNS at it in March 2025 — and never
-shipped a site. Search engines still hold an old meta description:
-*"Button — Erkaklar va ayollar uchun keng assortimentdagi sifatli kiyimlar va poyabzallar
-do'koni."*
+Registry data (RDAP, Uzinfocom / cctld.uz):
+
+```
+handle       D306723-UZ           status       active
+registered   2019-10-04           last change  2024-10-23
+expiration   2031-10-07           ← paid ~7 years forward
+registrar    Arsenal-D (webname.uz)
+registrant   REDACTED FOR PRIVACY ← ownership NOT publicly confirmable
+nameservers  dns1–4.webspace.uz   MX  button.uz (mail is configured)
+```
+
+Someone bought the domain in 2019, renewed it in 2024 **through 2031**, configured mail, pointed
+DNS at Uzbek hosting — and never shipped a site. Search engines still hold an old meta
+description: *"Button — Erkaklar va ayollar uchun keng assortimentdagi sifatli kiyimlar va
+poyabzallar do'koni."*
+
+**Honest caveat:** the registrant is privacy-redacted, so we **cannot prove** Button owns it.
+The circumstantial evidence is strong (an Uzbek-language meta description describing exactly
+this business, Uzbek hosting, configured mail, a 7-year renewal). But "button" is a common
+English word, so a squatter or an unrelated owner is possible. **Ask the client directly — this
+is a one-question conversation, not a research problem.**
+
+### 1.3 Domain options (checked 2026-09-06)
+
+| Domain | Status |
+|---|---|
+| `button.uz` | **taken** — almost certainly Button's own; confirm with client |
+| **`bttn.uz`** | ✅ **available** — matches their own `bttn` logo monogram |
+| `buttonuz.com` | ✅ available |
+| `buttonstore.uz` | ✅ available |
+| `buttonuz.uz` | ✅ available |
+| `bttn.com` | taken |
+
+**Recommendation, in order:**
+1. **Confirm Button owns `button.uz`.** If they do, this whole question disappears — it is the
+   best possible domain and it is already paid for through 2031.
+2. If they do *not* own it, **`bttn.uz`** is the strongest fallback: it is short, it is `.uz`
+   (which carries local trust that `.com` does not in this market), and it is *literally their
+   own logo monogram* — the circular mark reads `bttn`. That is a far better brand fit than
+   `buttonuz.com`, which reads like a workaround.
+3. `buttonuz.com` is worth registering cheaply as a **defensive redirect** either way, but it
+   should not be the primary domain. In Uzbekistan `.uz` outranks `.com` for local credibility.
 
 **Why this matters for the pitch:** they already decided they want a website, already spent the
 money, and got stuck. We are not selling them an idea — we are finishing something they
@@ -124,10 +167,51 @@ page, wishlist, phone-first support, UZ+RU.
 tourists, expats and diaspora); make **per-branch stock** visible (nobody local does this well);
 be far faster on mobile.
 
-### JUST — clothing & footwear chain
+### JUST — [just2010.uz](https://just2010.uz/uz/) — *the most advanced local competitor*
 
-Present in Mega Planet (Tashkent), Atlas (Qarshi, Samarqand), Media Park. Listed only in
-directories — **no meaningful web presence found**. Same gap as Button.
+**Correction:** an earlier draft of this document said JUST had no web presence. That was wrong
+— it searched `just.uz`. Their real site is **`just2010.uz`**, and it is the most complete
+clothing e-commerce operation we have found in Uzbekistan.
+
+**What they run:**
+- **Full transactional e-commerce** — accounts, order tracking, cart, delivery, returns,
+  public offer (oferta), privacy policy.
+- **Native mobile apps** on both Google Play and the App Store. Nobody else local has this.
+- **Men's *and* women's** (`Erkaklar` / `Ayollar`), deep category tree: shim, jogger, anorak,
+  vetrovka, kurtka, palto, pidjak, polo, hoodie, shorts, footwear, accessories.
+- **Gift cards**, prominently merchandised. Promotions up to 70% off.
+- Stores incl. Mega Planet (Tashkent), Atlas (Qarshi, Samarqand), Media Park.
+  Yakkasaroy office, +998 55 506 88 00.
+
+**Their stack and visual language** (fingerprinted 2026-09-06):
+
+| | |
+|---|---|
+| CMS | **Bitrix** (PHP) + Vue components |
+| Type | **Montserrat** (300/400/500/700), Cyrillic subset — geometric sans |
+| Palette | near-black `#232526` / `#0B0B0B`, light grey `#F5F5F5`, accent **`#7000FF` — vivid purple** |
+| Homepage | category tiles carried by product photography |
+| Languages | **UZ + RU only — again, no English** |
+| HTML weight | **407 KB** on the homepage |
+| Caching | **`Cache-Control: no-store, no-cache, must-revalidate`** |
+
+**What we take from JUST** (this is the reference the client likes):
+neutral near-black + light-grey palette so **photography carries the page**; category tiles with
+real imagery instead of text links; a geometric sans; gift cards as a merchandising idea;
+mobile apps as a v3 ambition.
+
+**Where we beat them — and it is not subtle:**
+1. **Speed.** 407 KB of HTML served with `no-store` means *every* visit is a full uncached
+   round trip to a Bitrix backend. Our pages are prerendered static HTML on a CDN. On a
+   mid-range Android over Uzbek mobile data this is the single most visible difference a
+   customer will feel.
+2. **English.** Neither JUST nor Terra Pro has it.
+3. **Per-branch stock.** Nobody local shows it.
+
+> ⚠ **Palette collision:** JUST's accent is purple (`#7000FF`) and Button's brand is purple
+> (`#4A1082`). Button's is much deeper and less electric, but we must not end up looking like a
+> JUST clone. Differentiate through **layout density, typography and photography treatment** —
+> and keep purple restricted to identity and the primary CTA (§20), never as a background wash.
 
 ### Wider context
 
@@ -662,20 +746,24 @@ maybe a mobile app on the v2 REST API.
 
 Blocking, in order:
 
-1. **Logo / brand assets** — vector (SVG/AI/PDF) preferred, high-res PNG acceptable, plus the
-   exact brand colour values if they exist. **Currently blocking the design phase** (§20).
-2. **Access to the existing `button.uz` hosting/DNS** (webspace.uz control panel). The domain
-   and hosting are already paid for — we need the credentials, not a purchase.
-3. **Confirm the full branch list** — exact addresses, phones, hours per branch. Three are known
+1. **Logo — vector file.** ✅ A raster version has been supplied and the purple is in use, but
+   we still need the **SVG/AI/PDF** for a crisp wordmark and favicon at every size, plus the
+   **exact brand hex** if a brand guide exists (ours is currently eyeballed — §20).
+2. **Confirm Button owns `button.uz`** (§1.2). Registrant is privacy-redacted; one question to
+   the client settles it and decides the whole domain plan (§1.3).
+3. **Access to the `button.uz` hosting/DNS** (webspace.uz control panel), assuming #2 confirms
+   they own it. The domain and hosting are already paid for — we need credentials, not a purchase.
+4. **Product photography.** The single biggest quality lever, and the one thing we cannot fix
+   in code. It is what makes just2010.uz look good (§2), and no amount of front-end work
+   substitutes for it. Instagram reel stills will not carry a catalogue. Ask for: consistent
+   background, 4:5 ratio, 3–5 shots per item, one worn shot.
+5. **Confirm the full branch list** — exact addresses, phones, hours per branch. Three are known
    (Chilonzor/Andalus, Mirobod, Beruniy); there may be more.
-4. **Confirm opening hours** (22:00 or 23:00 — sources disagree).
-5. **Confirm the range**: men only, or men + women + footwear? The old `button.uz` meta
-   description says both; Instagram says men's.
-6. **Product photography.** The single biggest quality lever, and the one thing we cannot fix
-   in code. Instagram reel stills will not carry a catalogue. Ask for: consistent background,
-   4:5 ratio, 3–5 shots per item, one worn shot.
-7. **Initial catalogue data** — 50–100 items with names, categories, prices, sizes, stock.
-8. **Decide who owns the admin account** and who updates stock daily. *A catalogue that shows
+6. **Confirm opening hours** (22:00 or 23:00 — sources disagree).
+7. **Confirm the range**: men only, or men + women + footwear? The old `button.uz` meta
+   description says both; Instagram says men's. JUST and Terra Pro both run men + women.
+8. **Initial catalogue data** — 50–100 items with names, categories, prices, sizes, stock.
+9. **Decide who owns the admin account** and who updates stock daily. *A catalogue that shows
    items the shop no longer has is worse than no catalogue.* This is an operational commitment,
    not a technical one — get it in writing.
 
@@ -719,10 +807,26 @@ Blocking, in order:
 
 ## 20. Design system & brand
 
-> **Status: brand colour is BLOCKED on receiving the logo.** Everything below is built so that
-> when the logo arrives, the change is **one token in one file** — never a find-and-replace
-> across components. Until then `--brand` holds a neutral placeholder. Do not scatter raw hex
-> values anywhere in the codebase.
+> **Status: logo received. Brand is deep purple.** ⚠ `--brand` is currently matched **by eye**
+> from the supplied image — **sample the exact value from the source file** once the vector
+> lands in the repo. Raw hex values must never appear outside `globals.css`.
+
+### The logo
+- **Deep purple** ground with a **white lowercase `button` wordmark** in a geometric rounded
+  sans (circular bowls, single-storey `t`). Poppins 600 is the interim match; replace with the
+  real vector.
+- A **circular `bttn` monogram** — `bt` over `tn` — knocked out in purple on a white disc.
+  This is the **favicon and app icon**, and it is the reason `bttn.uz` is such a good fallback
+  domain (§1.3).
+- Working value: `--brand: #4a1082`. White on it measures **~12:1 — passes WCAG AAA**, so the
+  primary CTA can safely be solid purple with white text.
+
+### Using the purple without looking cheap
+Purple is a strong, saturated identity colour and it is easy to overuse. It carries **identity
+and the primary action** — the wordmark, the primary CTA, the active state, focus rings. It is
+**not** a background wash and **not** a stock-status colour. Everything else stays neutral so
+the product photography is what carries the page. A purple-flooded layout would fight the
+clothes, which are the actual product.
 
 ### First impression is a feature
 The reference moment is: *someone taps the link in a 920K-follower Instagram bio, on a
@@ -735,10 +839,11 @@ not an aspiration — a beautiful page that arrives late has already lost.
 ```css
 /* app/globals.css — the ONLY place raw colour values are allowed to exist */
 :root {
-  /* ── Brand: replace these three when the logo lands ──────────── */
-  --brand:          #1A1A1A;   /* PLACEHOLDER — from logo */
-  --brand-ink:      #FFFFFF;   /* text that sits on --brand; must hit AA */
-  --brand-muted:    #F4F4F5;   /* tinted surface derived from --brand */
+  /* ── Brand: Button purple, from the logo ─────────────────────── */
+  --brand:          #4A1082;   /* ⚠ eyeballed — resample from the vector */
+  --brand-ink:      #FFFFFF;   /* on --brand: ~12:1, passes AAA */
+  --brand-hover:    #3B0C68;   /* darker purple for hover/active */
+  --brand-muted:    #F4F0F9;   /* faint purple tint for surfaces */
 
   /* ── Neutrals: independent of brand, do not change with it ───── */
   --bg:             #FFFFFF;
@@ -797,15 +902,30 @@ anything else, and review it at 360px width first.
 
 ### 21.1 The load profile is spiky, not steady
 
-This is the defining operational fact, and it follows directly from §1.1. Button's traffic will
-not arrive as a smooth daily curve. It arrives as **Instagram spikes**: a post or story goes out
-to ~920K followers and a large share taps the bio link within the same few minutes.
+Button's traffic will not arrive as a smooth daily curve. It arrives as **Instagram spikes**: a
+story or post goes out and the bio link gets tapped in a burst. But **a large follower count
+does not mean a large simultaneous audience**, and it is worth doing the arithmetic rather than
+designing for a number that feels impressive:
 
-> **Design target: survive a cold spike of ~10–20k visitors in 10 minutes, on a budget,
-> with zero manual intervention.** A steady-state-only design will fail on launch day, which is
-> precisely the day the client is watching.
+```
+920 000 followers
+→ a story realistically reaches   5–10%   ≈  45 000 – 90 000 views
+→ link-sticker tap rate is        1–3%    ≈     500 –  2 700 taps
+→ spread over the hours the story is live, not one instant
+⇒ realistic PEAK CONCURRENCY: low hundreds. Occasionally ~1 000.
+```
 
-Three consequences:
+> **Design target: comfortably serve a few thousand visitors in the hour after a post, with
+> peak concurrency in the low hundreds — on a small budget and with no manual intervention.**
+
+That is a **modest** load for a static-first site. State it plainly rather than inflating it:
+the risk here is not that the servers melt, it is that we **over-engineer for a spike that never
+comes** and spend the budget in the wrong place. The correct investment is speed on a mid-range
+Android over mobile data, and photography — not capacity.
+
+The good news is that the architecture below is not a scaling concession; it is just the normal
+way to build this, and it happens to have a ceiling far above what Button will actually hit.
+It costs nothing extra. Three consequences still hold:
 1. **The catalogue must be servable without touching the database.** Static/ISR HTML at the CDN
    edge means a spike is absorbed by Cloudflare, not by Postgres.
 2. **The database is the scarce resource, not the app.** App instances scale horizontally and
@@ -842,10 +962,11 @@ grid.
 A clothing catalogue is ~90% image bytes. Serve AVIF/WebP at correct sizes from the CDN, never
 from the origin. This is where the money and the speed both live.
 
-**6 — Autoscaling.** Vercel does this natively. On a VPS fallback, run 2+ app containers behind
-Caddy/nginx with health checks; that is our "load balancer" and it also gives zero-downtime
-deploys. **Do not build a custom load balancer** — this is a solved problem and building one
-would be the wrong use of the budget.
+**6 — Autoscaling / load balancing.** Vercel does this natively; at Button's real volume
+(§21.1) we will not come close to the limits. On a VPS fallback, run 2+ app containers behind
+Caddy/nginx with health checks — that is the "load balancer", and its real value is
+**zero-downtime deploys**, not capacity. **Do not build a custom load balancer**, and do not add
+a load-balancing tier before a measurement demands one.
 
 **7 — Shed load gracefully.** Rate-limit writes and search (§21.3). Under genuine overload,
 serving a slightly stale catalogue is correct; showing an error page to an Instagram visitor is

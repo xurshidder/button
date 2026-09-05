@@ -29,7 +29,9 @@ export function Footer({ locale, t }: FooterProps) {
     <footer className="mt-16 border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <p className="text-lg font-bold tracking-tight text-fg">BUTTON</p>
+          <p className="font-display text-2xl lowercase leading-none tracking-tight text-brand">
+            button
+          </p>
           <p className="mt-1 text-sm text-fg-muted">{t.tagline}</p>
         </div>
 

@@ -28,14 +28,15 @@ export function Header({ locale, t }: HeaderProps) {
     <header className="sticky top-0 z-50 border-b border-border bg-bg/95 backdrop-blur">
       <div className="mx-auto flex h-14 max-w-6xl items-center gap-4 px-4 sm:h-16">
         {/*
-          PLACEHOLDER WORDMARK — replaced by the real logo once the client
-          supplies it (CLAUDE.md §17 ask #1).
+          Text wordmark set to match the logo: lowercase, geometric, brand
+          purple. Replace with the real logo SVG when the vector file arrives
+          (CLAUDE.md §17 ask #1).
         */}
         <Link
           href={`/${locale}`}
-          className="shrink-0 text-lg font-bold tracking-tight text-fg sm:text-xl"
+          className="shrink-0 font-display text-2xl lowercase leading-none tracking-tight text-brand sm:text-[26px]"
         >
-          BUTTON
+          button
         </Link>
 
         <nav className="hidden flex-1 items-center gap-6 md:flex">

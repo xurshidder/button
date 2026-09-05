@@ -9,13 +9,14 @@
 
 :root {
   /* ── BRAND ────────────────────────────────────────────────────────────────
-     ⚠ PLACEHOLDER — replace these three when the Button logo arrives.
-     Nothing else in the codebase needs to change.
-     --brand-ink MUST keep 4.5:1 contrast against --brand (WCAG AA).
-     If the brand colour turns out light, flip --brand-ink to near-black.   */
-  --brand: #1a1a1a;
+     Button's deep purple, taken from the logo.
+     ⚠ --brand is currently matched BY EYE from the supplied logo image. Sample
+     the exact value from the source file when it lands in the repo.
+     White on this purple measures ~12:1 — passes WCAG AAA comfortably.      */
+  --brand: #4a1082;
   --brand-ink: #ffffff;
-  --brand-muted: #f4f4f5;
+  --brand-hover: #3b0c68;
+  --brand-muted: #f4f0f9;
 
   /* ── NEUTRALS ── independent of brand; do not change when the logo lands */
   --bg: #ffffff;
@@ -35,6 +36,7 @@
 @theme inline {
   --color-brand: var(--brand);
   --color-brand-ink: var(--brand-ink);
+  --color-brand-hover: var(--brand-hover);
   --color-brand-muted: var(--brand-muted);
 
   --color-bg: var(--bg);
@@ -49,6 +51,7 @@
   --color-sale: var(--sale);
 
   --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-poppins), var(--font-inter), system-ui, sans-serif;
 }
 
 body {
