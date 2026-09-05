@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BUTTON — design tokens
+   This is the ONLY file in the codebase allowed to contain raw colour values.
+   Components must reference tokens (bg-brand, text-fg-muted), never hex.
+   See CLAUDE.md §20.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── BRAND ────────────────────────────────────────────────────────────────
+     ⚠ PLACEHOLDER — replace these three when the Button logo arrives.
+     Nothing else in the codebase needs to change.
+     --brand-ink MUST keep 4.5:1 contrast against --brand (WCAG AA).
+     If the brand colour turns out light, flip --brand-ink to near-black.   */
+  --brand: #1a1a1a;
+  --brand-ink: #ffffff;
+  --brand-muted: #f4f4f5;
+
+  /* ── NEUTRALS ── independent of brand; do not change when the logo lands */
+  --bg: #ffffff;
+  --surface: #fafafa;
+  --border: #e5e5e5;
+  --fg: #171717;
+  --fg-muted: #6b7280;
+
+  /* ── SEMANTIC ── fixed meanings. Never reuse these decoratively, and never
+     let the brand colour take one of these jobs. */
+  --in-stock: #16a34a;
+  --low-stock: #d97706;
+  --out-of-stock: #9ca3af;
+  --sale: #dc2626;
+}
+
+@theme inline {
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-muted: var(--brand-muted);
+
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+
+  --color-in-stock: var(--in-stock);
+  --color-low-stock: var(--low-stock);
+  --color-out-of-stock: var(--out-of-stock);
+  --color-sale: var(--sale);
+
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+
+/* Prices must never make the grid jitter as digits change. CLAUDE.md §20. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Placeholder shown until Button supplies real product photography. */
+.photo-pending {
+  background-image: linear-gradient(
+    135deg,
+    var(--surface) 0%,
+    var(--brand-muted) 100%
+  );
+}

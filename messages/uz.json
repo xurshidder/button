@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Button",
+    "tagline": "Sifat • Uslub • Qulay narx",
+    "description": "Erkaklar kiyim do'koni"
+  },
+  "nav": {
+    "catalog": "Katalog",
+    "stores": "Do'konlar",
+    "about": "Biz haqimizda",
+    "contact": "Aloqa",
+    "wishlist": "Saralangan",
+    "menu": "Menyu",
+    "close": "Yopish"
+  },
+  "hero": {
+    "title": "Sifatli erkaklar kiyimlari",
+    "subtitle": "Turkiya va Xitoydan keltirilgan kiyimlar. Narxlarni shu yerda ko'ring — do'konga bormasdan.",
+    "ctaPrimary": "Katalogni ko'rish",
+    "ctaSecondary": "Do'konlar manzili"
+  },
+  "sections": {
+    "newArrivals": "Yangi kelganlar",
+    "categories": "Kategoriyalar",
+    "ourStores": "Bizning do'konlar",
+    "viewAll": "Barchasini ko'rish"
+  },
+  "product": {
+    "soum": "so'm",
+    "sizes": "O'lchamlar",
+    "colors": "Ranglar",
+    "inStock": "Sotuvda bor",
+    "lowStock": "Oxirgi donalar",
+    "outOfStock": "Sotuvda yo'q",
+    "orderTelegram": "Telegramda buyurtma",
+    "orderCall": "Qo'ng'iroq qiling",
+    "photoPending": "Rasm tez orada",
+    "madeIn": "Ishlab chiqarilgan",
+    "sale": "Chegirma",
+    "availability": "Do'konlarda mavjudligi",
+    "material": "Tarkibi"
+  },
+  "stores": {
+    "openUntil": "23:00 gacha ochiq",
+    "everyDay": "Har kuni",
+    "viewOnMap": "Xaritada ko'rish",
+    "call": "Qo'ng'iroq qilish"
+  },
+  "footer": {
+    "followUs": "Bizni kuzating",
+    "contactUs": "Bog'lanish",
+    "workingHours": "Ish vaqti",
+    "rights": "Barcha huquqlar himoyalangan",
+    "madeNote": "Toshkentda tayyorlandi"
+  },
+  "common": {
+    "loading": "Yuklanmoqda…",
+    "notFound": "Sahifa topilmadi",
+    "backHome": "Bosh sahifaga qaytish"
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Button",
+    "tagline": "Качество • Стиль • Доступная цена",
+    "description": "Магазин мужской одежды"
+  },
+  "nav": {
+    "catalog": "Каталог",
+    "stores": "Магазины",
+    "about": "О нас",
+    "contact": "Контакты",
+    "wishlist": "Избранное",
+    "menu": "Меню",
+    "close": "Закрыть"
+  },
+  "hero": {
+    "title": "Качественная мужская одежда",
+    "subtitle": "Одежда из Турции и Китая. Смотрите цены здесь — не выходя из дома.",
+    "ctaPrimary": "Смотреть каталог",
+    "ctaSecondary": "Адреса магазинов"
+  },
+  "sections": {
+    "newArrivals": "Новые поступления",
+    "categories": "Категории",
+    "ourStores": "Наши магазины",
+    "viewAll": "Смотреть все"
+  },
+  "product": {
+    "soum": "сум",
+    "sizes": "Размеры",
+    "colors": "Цвета",
+    "inStock": "В наличии",
+    "lowStock": "Последние размеры",
+    "outOfStock": "Нет в наличии",
+    "orderTelegram": "Заказать в Telegram",
+    "orderCall": "Позвонить",
+    "photoPending": "Фото скоро",
+    "madeIn": "Производство",
+    "sale": "Скидка",
+    "availability": "Наличие в магазинах",
+    "material": "Состав"
+  },
+  "stores": {
+    "openUntil": "Открыто до 23:00",
+    "everyDay": "Ежедневно",
+    "viewOnMap": "Показать на карте",
+    "call": "Позвонить"
+  },
+  "footer": {
+    "followUs": "Мы в соцсетях",
+    "contactUs": "Связаться",
+    "workingHours": "Часы работы",
+    "rights": "Все права защищены",
+    "madeNote": "Сделано в Ташкенте"
+  },
+  "common": {
+    "loading": "Загрузка…",
+    "notFound": "Страница не найдена",
+    "backHome": "Вернуться на главную"
+  }
+}

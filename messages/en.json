@@ -1,0 +1,61 @@
+{
+  "brand": {
+    "name": "Button",
+    "tagline": "Quality • Style • Fair price",
+    "description": "Men's clothing store"
+  },
+  "nav": {
+    "catalog": "Catalog",
+    "stores": "Stores",
+    "about": "About",
+    "contact": "Contact",
+    "wishlist": "Saved",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "hero": {
+    "title": "Quality men's clothing",
+    "subtitle": "Brought from Turkey and China. See the prices here — without going to the mall.",
+    "ctaPrimary": "Browse catalog",
+    "ctaSecondary": "Store locations"
+  },
+  "sections": {
+    "newArrivals": "New arrivals",
+    "categories": "Categories",
+    "ourStores": "Our stores",
+    "viewAll": "View all"
+  },
+  "product": {
+    "soum": "soum",
+    "sizes": "Sizes",
+    "colors": "Colors",
+    "inStock": "In stock",
+    "lowStock": "Last few left",
+    "outOfStock": "Out of stock",
+    "orderTelegram": "Order on Telegram",
+    "orderCall": "Call to order",
+    "photoPending": "Photo coming soon",
+    "madeIn": "Made in",
+    "sale": "Sale",
+    "availability": "Availability by store",
+    "material": "Material"
+  },
+  "stores": {
+    "openUntil": "Open until 23:00",
+    "everyDay": "Every day",
+    "viewOnMap": "View on map",
+    "call": "Call"
+  },
+  "footer": {
+    "followUs": "Follow us",
+    "contactUs": "Contact",
+    "workingHours": "Opening hours",
+    "rights": "All rights reserved",
+    "madeNote": "Made in Tashkent"
+  },
+  "common": {
+    "loading": "Loading…",
+    "notFound": "Page not found",
+    "backHome": "Back to home"
+  }
+}
