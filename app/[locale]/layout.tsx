@@ -6,6 +6,7 @@ import "../globals.css";
 import { Footer } from "@/components/layout/Footer";
 import { getBrandAssets } from "@/lib/brand";
 import { categories } from "@/lib/mock-data";
+import { BUTTON_PHONE } from "@/lib/telegram";
 import { Header } from "@/components/layout/Header";
 import {
   isLocale,
@@ -126,16 +127,26 @@ export default async function LocaleLayout({
         <Footer
           locale={typedLocale}
           logoSrc={logoSrc}
+          phone={BUTTON_PHONE}
+          categories={categories.map((category) => ({
+            href: `/${locale}/katalog/${category.slug}`,
+            label: category.name[typedLocale],
+          }))}
           t={{
             tagline: dict.brand.tagline,
-            followUs: dict.footer.followUs,
-            contactUs: dict.footer.contactUs,
+            help: dict.footer.help,
+            company: dict.footer.company,
+            findUs: dict.footer.findUs,
+            catalogTitle: dict.footer.catalogTitle,
             workingHours: dict.footer.workingHours,
             everyDay: dict.stores.everyDay,
             rights: dict.footer.rights,
+            contact: dict.nav.contact,
             stores: dict.nav.stores,
-            catalog: dict.nav.catalog,
             about: dict.nav.about,
+            wishlist: dict.nav.wishlist,
+            account: dict.nav.account,
+            allCategories: dict.sections.allCategories,
           }}
         />
       </body>

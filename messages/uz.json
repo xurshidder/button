@@ -62,7 +62,15 @@
     "contactUs": "Bog'lanish",
     "workingHours": "Ish vaqti",
     "rights": "Barcha huquqlar himoyalangan",
-    "madeNote": "Toshkentda tayyorlandi"
+    "madeNote": "Toshkentda tayyorlandi",
+    "help": "Xaridorlarga yordam",
+    "company": "Kompaniya",
+    "findUs": "Bizni toping",
+    "catalogTitle": "Katalog",
+    "delivery": "Yetkazib berish",
+    "payment": "To'lov",
+    "sizeGuide": "O'lcham jadvali",
+    "faq": "Savol-javob"
   },
   "common": {
     "loading": "Yuklanmoqda…",
@@ -92,7 +100,7 @@
   },
   "storesPage": {
     "title": "Do'konlarimiz",
-    "subtitle": "Toshkentdagi do'konlarimizga tashrif buyuring. Barcha mahsulotlarni o'z ko'zingiz bilan ko'rib, o'lchab ko'rishingiz mumkin.",
+    "subtitle": "Toshkentdagi do'konlarimizga tashrif buyuring. Barcha mahsulotlarni joyida ko'rishingiz mumkin.",
     "address": "Manzil",
     "hours": "Ish vaqti",
     "phone": "Telefon",
@@ -121,6 +129,7 @@
     "callUs": "Qo'ng'iroq qiling",
     "social": "Ijtimoiy tarmoqlar",
     "visitUs": "Do'konlarga tashrif buyuring",
-    "orderNote": "Buyurtma berish uchun mahsulot sahifasidagi tugmani bosing — mahsulot nomi va o'lchami avtomatik yoziladi."
+    "orderNote": "Buyurtma berish uchun mahsulot sahifasidagi tugmani bosing — mahsulot nomi va o'lchami avtomatik yoziladi.",
+    "lead": "Savollaringiz bormi? Telegram yoki telefon orqali bog'laning — tez javob beramiz."
   }
 }

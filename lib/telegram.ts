@@ -5,6 +5,7 @@ import type { Product } from "@/lib/types";
 /** Button's public channels. Real, verified values. */
 export const BUTTON_TELEGRAM = "button_uzbekistan";
 export const BUTTON_INSTAGRAM = "button_uz";
+export const BUTTON_FACEBOOK = "button.uzbekistan";
 export const BUTTON_PHONE = "998946135555";
 
 const CURRENCY_LABEL: Record<Locale, string> = {

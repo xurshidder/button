@@ -197,7 +197,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
           <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {stores.map((store) => (
-              <li key={store.id} className="rounded-2xl bg-bg p-5">
+              <li key={store.id} className="bg-bg p-5">
                 <h3 className="text-sm font-bold text-fg">
                   {store.name[typedLocale]}
                 </h3>

@@ -62,7 +62,15 @@
     "contactUs": "Contact",
     "workingHours": "Opening hours",
     "rights": "All rights reserved",
-    "madeNote": "Made in Tashkent"
+    "madeNote": "Made in Tashkent",
+    "help": "Customer support",
+    "company": "Company",
+    "findUs": "Find us",
+    "catalogTitle": "Catalog",
+    "delivery": "Delivery",
+    "payment": "Payment",
+    "sizeGuide": "Size guide",
+    "faq": "FAQ"
   },
   "common": {
     "loading": "Loading…",
@@ -92,7 +100,7 @@
   },
   "storesPage": {
     "title": "Our stores",
-    "subtitle": "Visit us in Tashkent. Everything can be seen and tried on in person.",
+    "subtitle": "Visit us in Tashkent — everything in the catalogue can be seen in person.",
     "address": "Address",
     "hours": "Opening hours",
     "phone": "Phone",
@@ -121,6 +129,7 @@
     "callUs": "Call us",
     "social": "Social media",
     "visitUs": "Visit our stores",
-    "orderNote": "To order, press the button on any product page — the name and size are filled in for you."
+    "orderNote": "To order, press the button on any product page — the name and size are filled in for you.",
+    "lead": "Questions? Message us on Telegram or call — we answer quickly."
   }
 }
