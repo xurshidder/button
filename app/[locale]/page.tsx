@@ -197,7 +197,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
           <ul className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {stores.map((store) => (
-              <li key={store.id} className="bg-bg p-5">
+              <li key={store.id} className="border border-fg bg-bg p-5">
                 <h3 className="text-sm font-bold text-fg">
                   {store.name[typedLocale]}
                 </h3>
@@ -209,9 +209,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 </p>
 
                 <div className="mt-4 flex flex-wrap gap-2">
+                  {/* Square, black-ruled buttons — the reference uses hard
+                      corners throughout its store and footer chrome. */}
                   <a
                     href={telHref(store.phone)}
-                    className="tabular rounded-full border border-fg px-4 py-2 text-xs font-bold text-fg transition hover:bg-fg hover:text-bg"
+                    className="tabular border border-fg px-4 py-2.5 text-xs font-bold text-fg transition hover:bg-fg hover:text-bg"
                   >
                     {formatPhone(store.phone)}
                   </a>
@@ -220,7 +222,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                       href={store.yandexMapUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="rounded-full border border-border px-4 py-2 text-xs font-medium text-fg transition hover:border-fg"
+                      className="border border-fg px-4 py-2.5 text-xs font-medium text-fg transition hover:bg-fg hover:text-bg"
                     >
                       {dict.stores.viewOnMap}
                     </a>

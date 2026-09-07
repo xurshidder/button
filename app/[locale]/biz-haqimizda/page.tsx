@@ -65,7 +65,7 @@ export default async function AboutPage({
         {dict.brand.tagline}
       </p>
 
-      <dl className="mt-10 grid grid-cols-3 gap-px overflow-hidden border border-border bg-border">
+      <dl className="mt-10 grid grid-cols-3 gap-px overflow-hidden border border-fg bg-fg">
         {facts.map((fact) => (
           <div key={fact.label} className="bg-bg px-4 py-6 text-center">
             <dt className="sr-only">{fact.label}</dt>

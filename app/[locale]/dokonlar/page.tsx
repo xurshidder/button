@@ -53,7 +53,7 @@ export default async function StoresPage({
         {dict.storesPage.subtitle}
       </p>
 
-      <ul className="mt-8 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-8 grid gap-px overflow-hidden border border-fg bg-fg sm:grid-cols-2 lg:grid-cols-3">
         {stores.map((store) => (
           <li key={store.id} className="flex flex-col gap-3 bg-bg p-6">
             <h2 className="text-base font-bold text-fg">

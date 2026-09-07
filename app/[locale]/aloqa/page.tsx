@@ -84,7 +84,7 @@ export default async function ContactPage({
         <h2 className="text-sm font-semibold uppercase tracking-[0.06em] text-fg">
           {dict.nav.stores}
         </h2>
-        <ul className="mt-4 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2">
+        <ul className="mt-4 grid gap-px overflow-hidden border border-fg bg-fg sm:grid-cols-2">
           {stores.map((store) => (
             <li key={store.id} className="bg-bg p-5">
               <h3 className="text-sm font-bold text-fg">
