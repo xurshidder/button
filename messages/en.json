@@ -81,5 +81,38 @@
     "noResults": "Nothing found",
     "noResultsHint": "Try a different word, or browse the catalog.",
     "searchedFor": "Search"
+  },
+  "storesPage": {
+    "title": "Our stores",
+    "subtitle": "Visit us in Tashkent. Everything can be seen and tried on in person.",
+    "address": "Address",
+    "hours": "Opening hours",
+    "phone": "Phone",
+    "payment": "Card payments",
+    "delivery": "Delivery",
+    "pickup": "Pickup"
+  },
+  "about": {
+    "title": "About us",
+    "lead": "Button is a chain of men's clothing stores in Tashkent.",
+    "p1": "We bring clothing from Turkey and China and sell it directly. The country of manufacture is stated openly on every product page — we have nothing to hide.",
+    "p2": "The goal is simple: good clothes at a fair price. We are not a luxury store and do not pretend to be one. But the quality is noticeably better than the bazaar.",
+    "p3": "This site exists so you can see prices. No need to travel to a mall to ask what something costs — the price, the sizes and which store has it are all here.",
+    "valuesTitle": "What matters",
+    "quality": "Quality",
+    "qualityText": "We pick every item ourselves. If it is not good, it does not go on the shelf.",
+    "style": "Style",
+    "styleText": "From formal to everyday — pieces that are easy to wear.",
+    "price": "Fair price",
+    "priceText": "We do not hide the price. It is the first thing you see."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "Have a question? Message us on Telegram or call — we usually reply quickly.",
+    "writeUs": "Message us",
+    "callUs": "Call us",
+    "social": "Social media",
+    "visitUs": "Visit our stores",
+    "orderNote": "To order, press the button on any product page — the name and size are filled in for you."
   }
 }

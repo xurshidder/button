@@ -81,5 +81,38 @@
     "noResults": "Hech narsa topilmadi",
     "noResultsHint": "Boshqa so'z bilan qidirib ko'ring yoki katalogni ko'ring.",
     "searchedFor": "Qidiruv"
+  },
+  "storesPage": {
+    "title": "Do'konlarimiz",
+    "subtitle": "Toshkentdagi do'konlarimizga tashrif buyuring. Barcha mahsulotlarni o'z ko'zingiz bilan ko'rib, o'lchab ko'rishingiz mumkin.",
+    "address": "Manzil",
+    "hours": "Ish vaqti",
+    "phone": "Telefon",
+    "payment": "Karta orqali to'lov",
+    "delivery": "Yetkazib berish",
+    "pickup": "Do'kondan olib ketish"
+  },
+  "about": {
+    "title": "Biz haqimizda",
+    "lead": "Button — Toshkentdagi erkaklar kiyimlari do'konlari tarmog'i.",
+    "p1": "Biz kiyimlarni Turkiya va Xitoydan olib kelamiz va to'g'ridan-to'g'ri sotamiz. Ishlab chiqarilgan joyni har bir mahsulot sahifasida ochiq ko'rsatamiz — yashiradigan narsamiz yo'q.",
+    "p2": "Maqsadimiz oddiy: yaxshi kiyimni halol narxda sotish. Biz lyuks do'kon emasmiz va bo'lishga urinmaymiz ham. Ammo bozordagi kiyimdan sezilarli darajada yaxshiroq sifat taklif qilamiz.",
+    "p3": "Ushbu sayt narxlarni ko'rish uchun. Savdo markaziga borib narx so'rashning hojati yo'q — bu yerda har bir mahsulotning narxi, o'lchamlari va qaysi do'konda borligi ko'rsatilgan.",
+    "valuesTitle": "Nima muhim",
+    "quality": "Sifat",
+    "qualityText": "Har bir mahsulotni o'zimiz tanlaymiz. Sifatsiz narsani javonimizga qo'ymaymiz.",
+    "style": "Uslub",
+    "styleText": "Klassikadan kundalik kiyimgacha — kiyish oson va zamonaviy modellar.",
+    "price": "Qulay narx",
+    "priceText": "Narxni yashirmaymiz. Sayt ochilganda birinchi ko'radigan narsangiz — narx."
+  },
+  "contact": {
+    "title": "Aloqa",
+    "subtitle": "Savolingiz bormi? Telegram yoki telefon orqali bog'laning — odatda tez javob beramiz.",
+    "writeUs": "Bizga yozing",
+    "callUs": "Qo'ng'iroq qiling",
+    "social": "Ijtimoiy tarmoqlar",
+    "visitUs": "Do'konlarga tashrif buyuring",
+    "orderNote": "Buyurtma berish uchun mahsulot sahifasidagi tugmani bosing — mahsulot nomi va o'lchami avtomatik yoziladi."
   }
 }
