@@ -47,7 +47,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         listener: no JavaScript, nothing to jank on a mid-range Android, and it
         degrades to an ordinary hero if sticky is unavailable.
       */}
-      <section className="relative h-[128vh] sm:h-[135vh]">
+      <section className="relative h-[112vh] sm:h-[115vh]">
         <div
           className={`sticky top-0 h-screen overflow-hidden ${heroImage ? "" : "brand-gradient"}`}
         >

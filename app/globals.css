@@ -155,7 +155,9 @@ body {
     .hero-copy {
       animation: hero-release linear both;
       animation-timeline: view();
-      animation-range: exit 10% exit 70%;
+      /* Tightened to match the shorter pin: with less travel available, a
+         slow fade would still be half-visible as the section leaves. */
+      animation-range: exit 5% exit 55%;
     }
   }
 }
