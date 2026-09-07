@@ -870,12 +870,14 @@ not an aspiration — a beautiful page that arrives late has already lost.
   --brand-hover:    #3B0C68;   /* darker purple for hover/active */
   --brand-muted:    #F4F0F9;   /* faint purple tint for surfaces */
 
-  /* ── Neutrals: independent of brand, do not change with it ───── */
+  /* ── Neutrals: WARM ramp, sampled from Banana Republic ───────── */
   --bg:             #FFFFFF;
-  --surface:        #FAFAFA;
-  --border:         #E5E5E5;
-  --fg:             #171717;
-  --fg-muted:       #6B7280;
+  --surface:        #F2F1EE;   /* off-white with a trace of yellow, not grey */
+  --border:         #E2E0DD;
+  --fg:             #000000;
+  --fg-muted:       #6A6A6A;
+  --fg-placeholder: #767676;
+  --fg-disabled:    #ADAAA4;
 
   /* ── Semantic: fixed meanings, never used decoratively ───────── */
   --in-stock:       #16A34A;
@@ -917,6 +919,13 @@ motion            300ms standard, cubic-bezier(0.4, 0, 0.2, 1)
 shadows, no rounded corners on product images, no gradients. Pure white page, black text, one
 disciplined grey ramp. Saturated colour appears *only* where it carries meaning — red means
 promotion, never decoration. The clothes are the only colourful thing on screen.
+
+> ⚠ **The neutral ramp is now WARM, taken from Banana Republic, not Uniqlo.**
+> Uniqlo's surfaces are cold grey (`#f4f4f4`); Banana Republic's are off-white
+> with a trace of yellow (`#f2f1ee`, rules `#e2e0dd`). That single degree of warmth
+> is most of why their pages read as considered rather than clinical, and it suits a
+> clothing catalogue better — warm neutrals flatter skin tones and natural fabrics,
+> which is nearly all of what these pages contain. Everything else below still holds.
 
 **What we adopt:** the neutral ramp (now our `--surface`/`--border`/`--fg-muted`/`--fg-disabled`),
 square corners on product imagery, borderless cards on white, product name in *regular* weight

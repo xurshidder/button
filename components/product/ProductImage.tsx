@@ -53,7 +53,10 @@ export function ProductImage({
   }
 
   return (
-    <div className="relative flex aspect-4/5 w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-gradient-to-b from-surface to-brand-muted">
+    /* Flat warm surface, not a purple-tinted gradient: against the warm
+       neutral ramp a cool lilac wash reads as a mismatch rather than a tint.
+       The purple stays where it belongs — on the drawing itself. */
+    <div className="relative flex aspect-4/5 w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface">
       <GarmentIcon
         categorySlug={categorySlug}
         className="size-16 text-brand/25 sm:size-20"
