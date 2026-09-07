@@ -63,7 +63,7 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
           aria-label="Button"
           className="flex shrink-0 items-center rounded-lg mr-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
         >
-          <Logo src={logoSrc} height={27} variant="wordmark" />
+          <Logo src={logoSrc} height={22} />
         </Link>
 
         {/* Inline category nav — uppercase and letterspaced, BR's treatment. */}

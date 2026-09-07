@@ -1,5 +1,20 @@
 # Brand assets — drop the logo here
 
+> ## Current state: the wordmark is a RECONSTRUCTION
+>
+> `components/layout/Logo.tsx` draws the "button" wordmark as inline SVG,
+> rebuilt from the logo's geometry (see `scripts/build-wordmark.mjs`, which also
+> renders a PNG preview). It is monoline geometric — straight segments, circles
+> and arcs at one stroke width — so it reproduces closely and scales perfectly.
+>
+> **It is still a reconstruction, not the real artwork.** Letter spacing and
+> stroke weight are matched by eye. Dropping a real file in this folder
+> overrides it automatically — a supplied vector always wins.
+>
+> The circular `bttn` monogram has NOT been reconstructed; it is needed for the
+> favicon, so `mark.svg` or `mark.png` is still worth supplying.
+
+
 Auto-detected, like product photos. Put a file here and the header, footer and
 favicon start using it. Nothing to change in code.
 
