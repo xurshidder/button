@@ -17,6 +17,8 @@ export interface Category {
   id: string;
   slug: string;
   name: Translated;
+  /** Tile photograph, uploaded through /admin. */
+  imageUrl?: string;
   sortOrder: number;
 }
 

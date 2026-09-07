@@ -3,6 +3,7 @@ import { revalidatePath } from "next/cache";
 
 import { isAuthenticated } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
+import { CAMPAIGN_SLOTS, campaignSettingKey } from "@/lib/services/media";
 import {
   EXTENSION_FOR,
   MAX_UPLOAD_BYTES,
@@ -63,6 +64,51 @@ export async function POST(request: Request) {
       return NextResponse.json({ url });
     }
 
+    if (target === "category") {
+      const category = await prisma.category.findUnique({ where: { slug } });
+      if (!category) {
+        return NextResponse.json(
+          { error: `No category with slug "${slug}"` },
+          { status: 404 },
+        );
+      }
+      const url = await uploadObject(
+        `categories/${slug}.${extension}`,
+        buffer,
+        mime,
+      );
+      await prisma.category.update({
+        where: { id: category.id },
+        data: { imageUrl: url },
+      });
+      revalidatePath("/", "layout");
+      return NextResponse.json({ url });
+    }
+
+    if (target === "campaign") {
+      // Slot is positional: 1 is the large panel, 2–5 the detail cells.
+      const slot = Number(form.get("slot"));
+      if (!Number.isInteger(slot) || slot < 1 || slot > CAMPAIGN_SLOTS) {
+        return NextResponse.json(
+          { error: `slot must be 1–${CAMPAIGN_SLOTS}` },
+          { status: 400 },
+        );
+      }
+      const url = await uploadObject(
+        `campaign/${slot}.${extension}`,
+        buffer,
+        mime,
+      );
+      const key = campaignSettingKey(slot);
+      await prisma.siteSetting.upsert({
+        where: { key },
+        create: { key, value: url },
+        update: { value: url },
+      });
+      revalidatePath("/", "layout");
+      return NextResponse.json({ url });
+    }
+
     if (target === "product") {
       const product = await prisma.product.findUnique({ where: { slug } });
       if (!product) {
@@ -97,7 +143,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(
-      { error: "target must be 'hero' or 'product'" },
+      { error: "target must be hero, product, category or campaign" },
       { status: 400 },
     );
   } catch (error) {

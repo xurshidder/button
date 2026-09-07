@@ -3,9 +3,12 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+type Target = "product" | "hero" | "category" | "campaign";
+
 interface UploadFormProps {
-  /** Product slugs available to attach photos to. */
-  slugs: { slug: string; name: string; imageCount: number }[];
+  products: { slug: string; name: string; imageCount: number }[];
+  categories: { slug: string; name: string; hasImage: boolean }[];
+  campaignSlots: number;
 }
 
 type Status =
@@ -14,19 +17,51 @@ type Status =
   | { kind: "error"; message: string }
   | { kind: "done"; count: number };
 
+const TARGETS: { value: Target; label: string; hint: string }[] = [
+  {
+    value: "product",
+    label: "Mahsulot rasmi",
+    hint: "4:5 nisbat. Bir nechta rasm birdan yuklash mumkin.",
+  },
+  {
+    value: "hero",
+    label: "Bosh sahifa rasmi",
+    hint: "Kenglikka cho'zilgan rasm. Chap tomonda matn uchun joy qoldiring.",
+  },
+  {
+    value: "category",
+    label: "Kategoriya rasmi",
+    hint: "3:4 nisbat, bo'yiga uzunroq.",
+  },
+  {
+    value: "campaign",
+    label: "Kolleksiya bloki",
+    hint: "1-o'rin — katta rasm. 2–5 — yaqindan olingan detallar.",
+  },
+];
+
 /**
- * Upload UI for the hero image and product photography.
+ * Upload UI for every image on the site.
  *
  * Uploads run one at a time rather than in parallel: this is aimed at a shop
- * manager on a phone over Uzbek mobile data (CLAUDE.md §13), where six
+ * manager on a phone over Uzbek mobile data (CLAUDE.md §13), where several
  * simultaneous uploads compete for the same thin uplink and all of them stall.
  * Sequential is slower on paper and far more reliable in practice.
  */
-export function UploadForm({ slugs }: UploadFormProps) {
+export function UploadForm({
+  products,
+  categories,
+  campaignSlots,
+}: UploadFormProps) {
   const router = useRouter();
-  const [target, setTarget] = useState<"hero" | "product">("product");
-  const [slug, setSlug] = useState(slugs[0]?.slug ?? "");
+  const [target, setTarget] = useState<Target>("product");
+  const [slug, setSlug] = useState(products[0]?.slug ?? "");
+  const [categorySlug, setCategorySlug] = useState(categories[0]?.slug ?? "");
+  const [slot, setSlot] = useState(1);
   const [status, setStatus] = useState<Status>({ kind: "idle" });
+
+  /** Only product uploads accept several files; the rest are single slots. */
+  const multiple = target === "product";
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -36,13 +71,16 @@ export function UploadForm({ slugs }: UploadFormProps) {
     const files = Array.from(input.files ?? []);
     if (files.length === 0) return;
 
-    for (const [index, file] of files.entries()) {
-      setStatus({ kind: "uploading", done: index, total: files.length });
+    const queue = multiple ? files : files.slice(0, 1);
+
+    for (const [index, file] of queue.entries()) {
+      setStatus({ kind: "uploading", done: index, total: queue.length });
 
       const body = new FormData();
       body.set("file", file);
       body.set("target", target);
-      body.set("slug", slug);
+      body.set("slug", target === "category" ? categorySlug : slug);
+      body.set("slot", String(slot));
 
       const response = await fetch("/api/upload", { method: "POST", body });
       if (!response.ok) {
@@ -52,39 +90,33 @@ export function UploadForm({ slugs }: UploadFormProps) {
         setStatus({ kind: "error", message: error ?? "Yuklashda xatolik" });
         return;
       }
-
-      // The hero is a single slot; extra files would just overwrite it.
-      if (target === "hero") break;
     }
 
-    setStatus({ kind: "done", count: target === "hero" ? 1 : files.length });
+    setStatus({ kind: "done", count: queue.length });
     input.value = "";
     router.refresh();
   }
+
+  const active = TARGETS.find((option) => option.value === target);
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-5">
       <fieldset className="flex flex-col gap-2">
         <legend className="text-sm font-semibold text-fg">Qayerga</legend>
-        <div className="flex gap-2">
-          {(
-            [
-              ["product", "Mahsulot rasmi"],
-              ["hero", "Bosh sahifa rasmi"],
-            ] as const
-          ).map(([value, label]) => (
+        <div className="flex flex-wrap gap-2">
+          {TARGETS.map((option) => (
             <button
-              key={value}
+              key={option.value}
               type="button"
-              onClick={() => setTarget(value)}
-              aria-pressed={target === value}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                target === value
+              onClick={() => setTarget(option.value)}
+              aria-pressed={target === option.value}
+              className={`px-4 py-2 text-sm font-medium transition ${
+                target === option.value
                   ? "bg-brand text-brand-ink"
                   : "border border-border text-fg hover:bg-surface"
               }`}
             >
-              {label}
+              {option.label}
             </button>
           ))}
         </div>
@@ -96,11 +128,45 @@ export function UploadForm({ slugs }: UploadFormProps) {
           <select
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
-            className="rounded-lg border border-border bg-bg px-3 py-2.5 text-sm outline-none focus:border-brand"
+            className="border border-border bg-bg px-3 py-2.5 text-sm outline-none focus:border-brand"
           >
-            {slugs.map((item) => (
+            {products.map((item) => (
               <option key={item.slug} value={item.slug}>
                 {item.name} ({item.imageCount})
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
+
+      {target === "category" ? (
+        <label className="flex flex-col gap-1.5">
+          <span className="text-sm font-semibold text-fg">Kategoriya</span>
+          <select
+            value={categorySlug}
+            onChange={(e) => setCategorySlug(e.target.value)}
+            className="border border-border bg-bg px-3 py-2.5 text-sm outline-none focus:border-brand"
+          >
+            {categories.map((item) => (
+              <option key={item.slug} value={item.slug}>
+                {item.name} {item.hasImage ? "✓" : "—"}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
+
+      {target === "campaign" ? (
+        <label className="flex flex-col gap-1.5">
+          <span className="text-sm font-semibold text-fg">O&apos;rin</span>
+          <select
+            value={slot}
+            onChange={(e) => setSlot(Number(e.target.value))}
+            className="border border-border bg-bg px-3 py-2.5 text-sm outline-none focus:border-brand"
+          >
+            {Array.from({ length: campaignSlots }, (_, i) => i + 1).map((n) => (
+              <option key={n} value={n}>
+                {n === 1 ? "1 — katta rasm" : `${n} — detal`}
               </option>
             ))}
           </select>
@@ -113,20 +179,19 @@ export function UploadForm({ slugs }: UploadFormProps) {
           name="files"
           type="file"
           accept="image/jpeg,image/png,image/webp,image/avif"
-          multiple={target === "product"}
+          multiple={multiple}
           required
-          className="rounded-lg border border-border bg-bg px-3 py-2.5 text-sm file:mr-3 file:rounded-full file:border-0 file:bg-brand file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-ink"
+          className="border border-border bg-bg px-3 py-2.5 text-sm file:mr-3 file:border-0 file:bg-brand file:px-4 file:py-1.5 file:text-xs file:font-semibold file:text-brand-ink"
         />
         <span className="text-xs text-fg-muted">
-          JPG, PNG, WebP yoki AVIF. Eng ko&apos;pi 10 MB. Mahsulot rasmlari
-          uchun 4:5 nisbat tavsiya etiladi.
+          JPG, PNG, WebP yoki AVIF. Eng ko&apos;pi 10 MB. {active?.hint}
         </span>
       </label>
 
       <button
         type="submit"
         disabled={status.kind === "uploading"}
-        className="rounded-full bg-brand px-6 py-3 text-sm font-bold text-brand-ink transition hover:bg-brand-hover disabled:opacity-60"
+        className="w-fit bg-brand px-6 py-3 text-sm font-bold text-brand-ink transition hover:bg-brand-hover disabled:opacity-60"
       >
         {status.kind === "uploading"
           ? `Yuklanmoqda… ${status.done + 1}/${status.total}`

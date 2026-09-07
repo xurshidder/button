@@ -5,7 +5,8 @@ import { GarmentIcon } from "@/components/product/GarmentIcon";
 
 interface CampaignMosaicProps {
   href: string;
-  images: string[];
+  /** Positional slots: index 0 is the large panel. Gaps stay gaps. */
+  images: (string | undefined)[];
   t: { eyebrow: string; title: string; text: string; cta: string };
 }
 

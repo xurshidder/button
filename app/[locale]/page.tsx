@@ -8,8 +8,7 @@ import { ProductCarousel } from "@/components/product/ProductCarousel";
 import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { getCampaignImages } from "@/lib/brand";
-import { getHeroImageUrl } from "@/lib/services/media";
+import { getCampaignImageUrls, getHeroImageUrl } from "@/lib/services/media";
 import { getCategories, getFeaturedProducts, getStores } from "@/lib/services/catalog";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -23,8 +22,10 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
     getCategories(),
     getStores(),
   ]);
-  const heroImage = await getHeroImageUrl();
-  const campaignImages = getCampaignImages();
+  const [heroImage, campaignImages] = await Promise.all([
+    getHeroImageUrl(),
+    getCampaignImageUrls(),
+  ]);
 
   const cardStrings = {
     soum: dict.product.soum,
@@ -149,6 +150,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               label={category.name[typedLocale]}
               shopNowLabel={dict.sections.shopNow}
               slug={category.slug}
+              src={category.imageUrl}
               priority={i < 4}
             />
           ))}

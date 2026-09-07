@@ -105,6 +105,7 @@ export async function getCategories(): Promise<Category[]> {
     id: row.id,
     slug: row.slug,
     name: { uz: row.nameUz, ru: row.nameRu, en: row.nameEn },
+    imageUrl: row.imageUrl ?? undefined,
     sortOrder: row.sortOrder,
   }));
 }
@@ -118,6 +119,7 @@ export async function getCategoryBySlug(
     id: row.id,
     slug: row.slug,
     name: { uz: row.nameUz, ru: row.nameRu, en: row.nameEn },
+    imageUrl: row.imageUrl ?? undefined,
     sortOrder: row.sortOrder,
   };
 }

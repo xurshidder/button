@@ -1,6 +1,9 @@
 import "server-only";
 
-import { getHeroImage as getLocalHeroImage } from "@/lib/brand";
+import {
+  getCampaignImages as getLocalCampaignImages,
+  getHeroImage as getLocalHeroImage,
+} from "@/lib/brand";
 import { prisma } from "@/lib/db";
 
 /**
@@ -26,4 +29,46 @@ export async function getHeroImageUrl(): Promise<string | undefined> {
     // through to whatever is committed on disk.
   }
   return getLocalHeroImage();
+}
+
+/** How many cells the campaign mosaic has: one large panel plus four details. */
+export const CAMPAIGN_SLOTS = 5;
+
+export const campaignSettingKey = (slot: number) => `campaign:${slot}`;
+
+/**
+ * Campaign mosaic imagery, in slot order.
+ *
+ * Uploaded slots win; anything still empty falls back to a file committed
+ * under `public/campaign/`. Returned sparse — index 0 is the large panel, and
+ * a gap stays a gap rather than shifting later photos forward, because the
+ * slots are positional and sliding them would rearrange the layout every time
+ * one image is replaced.
+ */
+export async function getCampaignImageUrls(): Promise<(string | undefined)[]> {
+  const slots: (string | undefined)[] = Array.from(
+    { length: CAMPAIGN_SLOTS },
+    () => undefined,
+  );
+
+  try {
+    const rows = await prisma.siteSetting.findMany({
+      where: {
+        key: {
+          in: Array.from({ length: CAMPAIGN_SLOTS }, (_, i) =>
+            campaignSettingKey(i + 1),
+          ),
+        },
+      },
+    });
+    for (const row of rows) {
+      const slot = Number(row.key.split(":")[1]);
+      if (slot >= 1 && slot <= CAMPAIGN_SLOTS) slots[slot - 1] = row.value;
+    }
+  } catch {
+    /* Fall through to files on disk. */
+  }
+
+  const local = getLocalCampaignImages();
+  return slots.map((url, i) => url ?? local[i]);
 }
