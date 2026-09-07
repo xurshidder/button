@@ -9,8 +9,8 @@ import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { getCampaignImages } from "@/lib/brand";
-import { getHeroImageUrl, withUploadedImages } from "@/lib/services/media";
-import { categories, getFeaturedProducts, stores } from "@/lib/mock-data";
+import { getHeroImageUrl } from "@/lib/services/media";
+import { getCategories, getFeaturedProducts, getStores } from "@/lib/services/catalog";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const { locale } = await params;
@@ -18,7 +18,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const featured = await withUploadedImages(getFeaturedProducts());
+  const [featured, categories, stores] = await Promise.all([
+    getFeaturedProducts(),
+    getCategories(),
+    getStores(),
+  ]);
   const heroImage = await getHeroImageUrl();
   const campaignImages = getCampaignImages();
 

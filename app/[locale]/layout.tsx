@@ -5,7 +5,7 @@ import "../globals.css";
 
 import { Footer } from "@/components/layout/Footer";
 import { getBrandAssets } from "@/lib/brand";
-import { categories } from "@/lib/mock-data";
+import { getCategories } from "@/lib/services/catalog";
 import { BUTTON_PHONE } from "@/lib/telegram";
 import { Header } from "@/components/layout/Header";
 import {
@@ -85,6 +85,7 @@ export default async function LocaleLayout({
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
   // Prefer the cropped wordmark in chrome; fall back to the full lock-up.
+  const categories = await getCategories();
   const brand = getBrandAssets();
   const logoSrc = brand.wordmark ?? brand.full;
 

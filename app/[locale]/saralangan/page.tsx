@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { WishlistGrid } from "@/components/wishlist/WishlistGrid";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { getPublishedProducts } from "@/lib/mock-data";
+import { getPublishedProducts } from "@/lib/services/catalog";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -40,7 +40,7 @@ export default async function WishlistPage({
 
       <div className="mt-6">
         <WishlistGrid
-          products={getPublishedProducts()}
+          products={await getPublishedProducts()}
           locale={locale as Locale}
           catalogHref={`/${locale}/katalog`}
           t={{

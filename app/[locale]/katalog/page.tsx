@@ -5,8 +5,7 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/product/ProductCard";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { categories, searchProducts } from "@/lib/mock-data";
-import { withUploadedImages } from "@/lib/services/media";
+import { getCategories, logSearch, searchProducts } from "@/lib/services/catalog";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -42,7 +41,13 @@ export default async function CatalogPage({
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const results = await withUploadedImages(searchProducts({ query, saleOnly }));
+  const [results, categories] = await Promise.all([
+    searchProducts({ query, saleOnly }),
+    getCategories(),
+  ]);
+
+  // Zero-result searches tell Button what to import (CLAUDE.md §21.4).
+  if (query) await logSearch(query, locale, results.length);
 
   const cardStrings = {
     soum: dict.product.soum,

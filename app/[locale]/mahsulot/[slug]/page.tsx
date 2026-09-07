@@ -7,21 +7,16 @@ import { ProductOrderPanel } from "@/components/product/ProductOrderPanel";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import {
-  getCategoryById,
+  getCategoryBySlug,
   getProductBySlug,
-  getPublishedProducts,
-  stores,
-} from "@/lib/mock-data";
-import { withUploadedImages } from "@/lib/services/media";
+  getPublishedSlugs,
+  getStores,
+} from "@/lib/services/catalog";
 
 /** Pre-render every published product in every locale (CLAUDE.md §9). */
-export function generateStaticParams() {
-  return locales.flatMap((locale) =>
-    getPublishedProducts().map((product) => ({
-      locale,
-      slug: product.slug,
-    })),
-  );
+export async function generateStaticParams() {
+  const slugs = await getPublishedSlugs();
+  return locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })));
 }
 
 export async function generateMetadata({
@@ -30,7 +25,7 @@ export async function generateMetadata({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
   if (!product) return {};
 
   return {
@@ -51,13 +46,19 @@ export default async function ProductPage({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const seedProduct = getProductBySlug(slug);
-  if (!seedProduct) notFound();
-  const [product] = await withUploadedImages([seedProduct]);
+  const [product, stores] = await Promise.all([
+    getProductBySlug(slug),
+    getStores(),
+  ]);
+  if (!product) notFound();
+
+  const category = product.categorySlug
+    ? await getCategoryBySlug(product.categorySlug)
+    : undefined;
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const category = getCategoryById(product.categoryId);
+
 
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://button.uz";
   const productUrl = `${siteUrl}/${locale}/mahsulot/${slug}`;

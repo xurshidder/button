@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { stores } from "@/lib/mock-data";
+import { getStores } from "@/lib/services/catalog";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -43,7 +43,10 @@ export default async function AboutPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const dict = await getDictionary(locale);
+  const [dict, stores] = await Promise.all([
+    getDictionary(locale),
+    getStores(),
+  ]);
   const typedLocale = locale as Locale;
 
   const facts = [

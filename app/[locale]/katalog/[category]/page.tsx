@@ -5,11 +5,11 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/product/ProductCard";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { categories, getCategoryBySlug, searchProducts } from "@/lib/mock-data";
-import { withUploadedImages } from "@/lib/services/media";
+import { getCategories, getCategoryBySlug, searchProducts } from "@/lib/services/catalog";
 
 /** Every category in every locale is prerendered — these are the SEO pages. */
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const categories = await getCategories();
   return locales.flatMap((locale) =>
     categories.map((category) => ({ locale, category: category.slug })),
   );
@@ -21,7 +21,7 @@ export async function generateMetadata({
   const { locale, category: slug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
   if (!category) return {};
 
   const name = category.name[locale as Locale];
@@ -42,12 +42,15 @@ export default async function CategoryPage({
   const { locale, category: slug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
   if (!category) notFound();
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const results = await withUploadedImages(searchProducts({ categorySlug: slug }));
+  const [results, categories] = await Promise.all([
+    searchProducts({ categorySlug: slug }),
+    getCategories(),
+  ]);
 
   const cardStrings = {
     soum: dict.product.soum,

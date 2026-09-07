@@ -6,7 +6,7 @@ import { SocialLinks } from "@/components/layout/SocialLinks";
 import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { stores } from "@/lib/mock-data";
+import { getStores } from "@/lib/services/catalog";
 import { BUTTON_PHONE, BUTTON_TELEGRAM } from "@/lib/telegram";
 
 export function generateStaticParams() {
@@ -44,7 +44,10 @@ export default async function ContactPage({
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
 
-  const dict = await getDictionary(locale);
+  const [dict, stores] = await Promise.all([
+    getDictionary(locale),
+    getStores(),
+  ]);
   const typedLocale = locale as Locale;
 
   return (
