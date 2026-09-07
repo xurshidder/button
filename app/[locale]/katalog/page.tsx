@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { categories, searchProducts } from "@/lib/mock-data";
+import { withUploadedImages } from "@/lib/services/media";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
@@ -41,7 +42,7 @@ export default async function CatalogPage({
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const results = searchProducts({ query, saleOnly });
+  const results = await withUploadedImages(searchProducts({ query, saleOnly }));
 
   const cardStrings = {
     soum: dict.product.soum,

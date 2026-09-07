@@ -6,6 +6,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { isLocale, locales, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { categories, getCategoryBySlug, searchProducts } from "@/lib/mock-data";
+import { withUploadedImages } from "@/lib/services/media";
 
 /** Every category in every locale is prerendered — these are the SEO pages. */
 export function generateStaticParams() {
@@ -46,7 +47,7 @@ export default async function CategoryPage({
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const results = searchProducts({ categorySlug: slug });
+  const results = await withUploadedImages(searchProducts({ categorySlug: slug }));
 
   const cardStrings = {
     soum: dict.product.soum,

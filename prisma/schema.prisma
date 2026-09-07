@@ -238,3 +238,12 @@ model SearchQuery {
 
   @@index([resultCount, createdAt])
 }
+
+/// Small key/value store for site-wide settings that are not worth a table of
+/// their own — the current hero image, for instance. Deliberately tiny: this is
+/// not a dumping ground, and anything with structure gets a real model.
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}

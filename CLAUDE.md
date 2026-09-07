@@ -1125,9 +1125,9 @@ company's infrastructure. The user creates these and shares access; Claude wires
 
 | # | Service | Who | Status | What's needed |
 |---|---|---|---|---|
-| 1 | **GitHub repo** | user creates, invites Claude/CLI | ☐ | Empty **private** repo named `button-web`. No README/.gitignore/licence — the local repo already has commits. Then give the HTTPS URL. |
-| 2 | **Postgres — Supabase** *(decided)* | user creates | ☐ | One project covers #2 and #3. Provide **pooled** `DATABASE_URL` (Supavisor, transaction mode) + **direct** `DIRECT_URL`. The pooled URL is not optional — see §21.2. |
-| 3 | **Object storage — Supabase Storage** *(decided)* | user creates | ☐ | Bucket + keys from the same project as #2. |
+| 1 | **GitHub repo** | user creates, invites Claude/CLI | ☑ github.com/xurshidder/button | Empty **private** repo named `button-web`. No README/.gitignore/licence — the local repo already has commits. Then give the HTTPS URL. |
+| 2 | **Postgres — Supabase** *(decided)* | user creates | ☑ connected | One project covers #2 and #3. Provide **pooled** `DATABASE_URL` (Supavisor, transaction mode) + **direct** `DIRECT_URL`. The pooled URL is not optional — see §21.2. |
+| 3 | **Object storage — Supabase Storage** *(decided)* | user creates | ☑ connected | Bucket + keys from the same project as #2. |
 | 4 | **Sentry** | user creates | ☐ | Free tier is fine. Provide DSN + auth token for source maps. |
 | 5 | **Analytics** (Plausible / Yandex.Metrica) | user creates | ☐ | Site ID / counter ID. |
 | 6 | **Vercel** | user creates | ☐ | Connect to the GitHub repo; import env vars. |

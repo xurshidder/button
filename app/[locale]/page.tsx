@@ -7,7 +7,7 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
-import { getHeroImage } from "@/lib/brand";
+import { getHeroImageUrl, withUploadedImages } from "@/lib/services/media";
 import { categories, getFeaturedProducts, stores } from "@/lib/mock-data";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -16,8 +16,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const featured = getFeaturedProducts();
-  const heroImage = getHeroImage();
+  const featured = await withUploadedImages(getFeaturedProducts());
+  const heroImage = await getHeroImageUrl();
 
   const cardStrings = {
     soum: dict.product.soum,

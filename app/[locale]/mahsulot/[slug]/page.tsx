@@ -12,6 +12,7 @@ import {
   getPublishedProducts,
   stores,
 } from "@/lib/mock-data";
+import { withUploadedImages } from "@/lib/services/media";
 
 /** Pre-render every published product in every locale (CLAUDE.md §9). */
 export function generateStaticParams() {
@@ -50,8 +51,9 @@ export default async function ProductPage({
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
 
-  const product = getProductBySlug(slug);
-  if (!product) notFound();
+  const seedProduct = getProductBySlug(slug);
+  if (!seedProduct) notFound();
+  const [product] = await withUploadedImages([seedProduct]);
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
