@@ -1,5 +1,19 @@
 # Hero image — drop the campaign photo here
 
+> ## ⚠ `main.jpg` is currently a STOCK PLACEHOLDER
+>
+> Source: [Unsplash](https://unsplash.com/photos/photo-1516257984-b1b4d707412e),
+> under the [Unsplash License](https://unsplash.com/license) — free for
+> commercial use, no attribution required. So it is safe to keep while
+> developing.
+>
+> **It is not safe to launch with.** It shows a garment Button does not sell, on
+> a model Button did not shoot. A homepage hero is the brand's single biggest
+> visual claim, and pointing it at stock photography tells the customer this is
+> not a real shop. Replace it with Button's own campaign photography before
+> anything goes in front of the client or the public.
+
+
 Auto-detected. The first image file in this folder becomes the homepage hero
 background, sitting behind the "Sifatli erkaklar kiyimlari" headline.
 
