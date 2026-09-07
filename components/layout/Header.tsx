@@ -1,21 +1,22 @@
 import Link from "next/link";
 
-import { Logo } from "@/components/layout/Logo";
 import { LocaleSwitcher } from "@/components/layout/LocaleSwitcher";
+import { Logo } from "@/components/layout/Logo";
 import { SearchBar } from "@/components/layout/SearchBar";
-import { formatPhone, telHref } from "@/lib/format";
 import type { Locale } from "@/lib/i18n/config";
-import { BUTTON_PHONE } from "@/lib/telegram";
+
+interface NavItem {
+  href: string;
+  label: string;
+  /** Rendered in the sale colour, the way Banana Republic flags SALE. */
+  isSale?: boolean;
+}
 
 interface HeaderProps {
   locale: Locale;
-  /** Logo artwork path, when public/brand/ contains it. */
   logoSrc?: string;
+  nav: NavItem[];
   t: {
-    catalog: string;
-    stores: string;
-    about: string;
-    contact: string;
     wishlist: string;
     account: string;
     search: string;
@@ -23,7 +24,7 @@ interface HeaderProps {
   };
 }
 
-/** Icon button — consistent 44px tap target, pill hover (CLAUDE.md §20). */
+/** Icon button — 44px tap target, pill hover. */
 function IconLink({
   href,
   label,
@@ -38,57 +39,67 @@ function IconLink({
       href={href}
       aria-label={label}
       title={label}
-      className="flex size-11 items-center justify-center rounded-full text-fg transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      className="flex size-10 items-center justify-center rounded-full text-fg transition-colors hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
     >
       {children}
     </Link>
   );
 }
 
-export function Header({ locale, logoSrc, t }: HeaderProps) {
-  const nav = [
-    { href: `/${locale}/katalog`, label: t.catalog },
-    { href: `/${locale}/dokonlar`, label: t.stores },
-    { href: `/${locale}/biz-haqimizda`, label: t.about },
-    { href: `/${locale}/aloqa`, label: t.contact },
-  ];
-
+/**
+ * Header in the Banana Republic arrangement: wordmark hard left, category links
+ * inline across the middle, search on the right.
+ *
+ * The categories sit in the header rather than behind a menu because this
+ * catalogue is shallow — putting them one tap away is worth more than the
+ * whitespace a hamburger would buy.
+ */
+export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-bg/95 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center gap-3 px-4 sm:gap-5">
+    <header className="sticky top-0 z-50 border-b border-border bg-bg">
+      <div className="mx-auto flex h-16 max-w-[1600px] items-center gap-6 px-4 lg:h-[72px] lg:px-8">
         <Link
           href={`/${locale}`}
           aria-label="Button"
           className="flex shrink-0 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
         >
-          <Logo src={logoSrc} height={26} />
+          <Logo src={logoSrc} height={26} variant="wordmark" />
         </Link>
 
-        {/* Search takes the free space — it is a primary way to browse a
-            catalogue this size, not an afterthought behind an icon. */}
-        <div className="hidden min-w-0 flex-1 md:block">
-          <SearchBar
-            locale={locale}
-            placeholder={t.searchPlaceholder}
-            label={t.search}
-          />
-        </div>
+        {/* Inline category nav — uppercase and letterspaced, BR's treatment. */}
+        <nav
+          aria-label="Primary"
+          className="hidden min-w-0 flex-1 items-center justify-center gap-6 xl:flex xl:gap-8"
+        >
+          {nav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`whitespace-nowrap text-[13px] uppercase tracking-[0.08em] transition-colors hover:text-brand ${
+                item.isSale ? "text-sale" : "text-fg"
+              }`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
-        <div className="ml-auto flex items-center gap-1 sm:gap-2">
-          <a
-            href={telHref(BUTTON_PHONE)}
-            className="tabular hidden whitespace-nowrap text-sm font-medium text-fg transition hover:text-brand xl:block"
-          >
-            {formatPhone(BUTTON_PHONE)}
-          </a>
+        <div className="ml-auto flex items-center gap-2 xl:ml-0">
+          <div className="hidden w-52 lg:block">
+            <SearchBar
+              locale={locale}
+              placeholder={t.searchPlaceholder}
+              label={t.search}
+              variant="underline"
+            />
+          </div>
 
-          {/* Favourites — works with no account, stored per browser. */}
           <IconLink href={`/${locale}/saralangan`} label={t.wishlist}>
             <svg
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.6"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               className="size-5"
@@ -103,7 +114,7 @@ export function Header({ locale, logoSrc, t }: HeaderProps) {
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.6"
+              strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               className="size-5"
@@ -118,21 +129,27 @@ export function Header({ locale, logoSrc, t }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile: search on its own row so it stays full width and tappable. */}
-      <div className="px-4 pb-3 md:hidden">
+      {/* Mobile: search full width, then the same categories as a scroll row. */}
+      <div className="px-4 pb-3 lg:hidden">
         <SearchBar
           locale={locale}
           placeholder={t.searchPlaceholder}
           label={t.search}
+          variant="pill"
         />
       </div>
 
-      <nav className="flex gap-1 overflow-x-auto border-t border-border px-4 py-2">
+      <nav
+        aria-label="Categories"
+        className="flex gap-5 overflow-x-auto border-t border-border px-4 py-2.5 xl:hidden"
+      >
         {nav.map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className="whitespace-nowrap rounded-full px-4 py-1.5 text-sm text-fg-muted transition-colors hover:bg-surface hover:text-fg"
+            className={`whitespace-nowrap text-xs uppercase tracking-[0.08em] transition-colors hover:text-brand ${
+              item.isSale ? "text-sale" : "text-fg-muted"
+            }`}
           >
             {item.label}
           </Link>

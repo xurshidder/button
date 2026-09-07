@@ -40,14 +40,15 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         Currently a brand-purple panel. When Button supplies a campaign photo,
         this becomes a background image with the same text block over it.
       */}
-      <section className="px-3 pt-3 sm:px-4 sm:pt-4">
-        <div className="brand-gradient relative overflow-hidden rounded-3xl">
+      <section>
+        <div
+          className={`relative overflow-hidden ${heroImage ? "" : "brand-gradient"}`}
+        >
           {heroImage ? (
             <>
               {/*
-                Campaign photo sits behind the headline. Anchored to the right
-                so the model stays in frame while the copy occupies the left —
-                a centred portrait would put the model's face under the text.
+                Full-bleed campaign photograph. Anchored right of centre so the
+                model stays in frame while the copy occupies the lower left.
               */}
               <Image
                 src={heroImage}
@@ -55,61 +56,68 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 fill
                 priority
                 sizes="100vw"
-                className="object-cover object-[75%_center] md:object-[70%_center]"
+                className="object-cover object-[68%_center] md:object-[60%_center]"
               />
               {/*
-                Purple scrim, opaque on the left and clearing to the right.
-                The supplied photography has a pale background, so white text
-                needs this to stay readable — and it keeps the hero on-brand
-                instead of turning into a stock photo with words on it.
+                Neutral scrim rather than a purple one. Banana Republic lets the
+                photograph keep its own colour and darkens only enough to carry
+                white type; tinting the whole frame purple would fight the
+                garment, which is the thing being sold.
               */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-r from-brand via-brand/85 to-brand/10 md:via-brand/70 md:to-transparent"
+                className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/10"
               />
-              {/* Extra bottom darkening for small screens, where the text
-                  column overlaps far more of the image. */}
               <div
                 aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-brand/80 to-transparent md:hidden"
+                className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent"
               />
             </>
           ) : (
-            /* No campaign photo yet — soft highlight keeps the flat gradient
-               from looking like a plain block of colour. */
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -right-24 -top-24 size-[420px] rounded-full bg-white/10 blur-3xl"
             />
           )}
 
-          <div
-            className={`relative mx-auto flex max-w-[1400px] flex-col gap-4 px-6 py-14 sm:px-10 sm:py-20 md:py-24 ${
-              heroImage ? "min-h-[440px] justify-end md:min-h-[520px] md:justify-center" : ""
-            }`}
-          >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-ink/70">
-              {dict.brand.tagline}
+          {/*
+            Text block sits bottom-left over the image. Height is capped well
+            short of a full screen: an editorial hero that fills the viewport
+            pushes priced product below the fold, which is the wrong trade for
+            this business (CLAUDE.md §1).
+          */}
+          <div className="relative mx-auto flex min-h-[520px] max-w-[1600px] flex-col justify-end px-6 pb-12 pt-24 sm:min-h-[600px] sm:px-10 sm:pb-16 lg:min-h-[660px] lg:px-16 lg:pb-20">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
+              {dict.hero.eyebrow}
             </p>
-            <h1 className="max-w-3xl text-3xl font-bold leading-[1.1] tracking-tight text-brand-ink sm:text-5xl md:text-6xl">
-              {dict.hero.title}
+
+            <h1 className="mt-3 max-w-2xl text-4xl font-normal leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
+              {dict.hero.campaign}
             </h1>
-            <p className="max-w-xl text-sm text-brand-ink/80 sm:text-base">
+
+            <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/85 sm:text-[15px]">
               {dict.hero.subtitle}
             </p>
 
-            <div className="mt-3 flex flex-wrap gap-3">
+            {/* Three square CTAs, evenly weighted — Banana Republic's pattern. */}
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
               <Link
                 href={`/${locale}/katalog`}
-                className="rounded-full bg-bg px-8 py-3.5 text-sm font-bold text-fg transition hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="min-w-[220px] bg-white px-8 py-4 text-center text-[13px] font-semibold uppercase tracking-[0.1em] text-fg transition hover:bg-brand hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                {dict.hero.ctaPrimary}
+                {dict.hero.ctaNew}
+              </Link>
+              <Link
+                href={`/${locale}/katalog`}
+                className="min-w-[220px] bg-white px-8 py-4 text-center text-[13px] font-semibold uppercase tracking-[0.1em] text-fg transition hover:bg-brand hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+              >
+                {dict.hero.ctaCatalog}
               </Link>
               <Link
                 href={`/${locale}/dokonlar`}
-                className="rounded-full border border-brand-ink/40 px-8 py-3.5 text-sm font-bold text-brand-ink transition hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                className="min-w-[220px] bg-white px-8 py-4 text-center text-[13px] font-semibold uppercase tracking-[0.1em] text-fg transition hover:bg-brand hover:text-brand-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
               >
-                {dict.hero.ctaSecondary}
+                {dict.hero.ctaStores}
               </Link>
             </div>
           </div>

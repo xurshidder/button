@@ -5,6 +5,7 @@ import "../globals.css";
 
 import { Footer } from "@/components/layout/Footer";
 import { getBrandAssets } from "@/lib/brand";
+import { categories } from "@/lib/mock-data";
 import { Header } from "@/components/layout/Header";
 import {
   isLocale,
@@ -78,6 +79,19 @@ export default async function LocaleLayout({
   const brand = getBrandAssets();
   const logoSrc = brand.wordmark ?? brand.full;
 
+  /*
+   * Categories sit inline in the header, Banana Republic style. Six keeps the
+   * row readable at typical widths; the rest stay one tap away on the
+   * catalogue page. Sale is last and carries the sale colour, as BR does.
+   */
+  const navItems = [
+    ...categories.slice(0, 6).map((category) => ({
+      href: `/${locale}/katalog/${category.slug}`,
+      label: category.name[typedLocale],
+    })),
+    { href: `/${locale}/katalog?sale=1`, label: dict.nav.sale, isSale: true },
+  ];
+
   return (
     <html
       lang={localeHtmlLang[typedLocale]}
@@ -87,11 +101,8 @@ export default async function LocaleLayout({
         <Header
           locale={typedLocale}
           logoSrc={logoSrc}
+          nav={navItems}
           t={{
-            catalog: dict.nav.catalog,
-            stores: dict.nav.stores,
-            about: dict.nav.about,
-            contact: dict.nav.contact,
             wishlist: dict.nav.wishlist,
             account: dict.nav.account,
             search: dict.nav.search,

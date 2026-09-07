@@ -14,13 +14,20 @@
     "close": "Yopish",
     "search": "Qidirish",
     "searchPlaceholder": "Mahsulot qidirish",
-    "account": "Hisobim"
+    "account": "Hisobim",
+    "sale": "Chegirma",
+    "all": "Barchasi"
   },
   "hero": {
     "title": "Sifatli erkaklar kiyimlari",
     "subtitle": "Turkiya va Xitoydan keltirilgan kiyimlar. Narxlarni shu yerda ko'ring — do'konga bormasdan.",
     "ctaPrimary": "Katalogni ko'rish",
-    "ctaSecondary": "Do'konlar manzili"
+    "ctaSecondary": "Do'konlar manzili",
+    "eyebrow": "YANGI KOLLEKSIYA",
+    "campaign": "Kuzgi yangiliklar",
+    "ctaNew": "Yangi kelganlar",
+    "ctaCatalog": "Butun katalog",
+    "ctaStores": "Do'konlar"
   },
   "sections": {
     "newArrivals": "Yangi kelganlar",
@@ -80,7 +87,8 @@
     "count": "ta mahsulot",
     "noResults": "Hech narsa topilmadi",
     "noResultsHint": "Boshqa so'z bilan qidirib ko'ring yoki katalogni ko'ring.",
-    "searchedFor": "Qidiruv"
+    "searchedFor": "Qidiruv",
+    "sale": "Chegirmadagi mahsulotlar"
   },
   "storesPage": {
     "title": "Do'konlarimiz",

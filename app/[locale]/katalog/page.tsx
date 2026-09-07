@@ -35,12 +35,13 @@ export default async function CatalogPage({
   if (!isLocale(locale)) notFound();
 
   // searchParams is async in Next 16 (CLAUDE.md §5).
-  const { q } = await searchParams;
+  const { q, sale } = await searchParams;
   const query = typeof q === "string" ? q : undefined;
+  const saleOnly = sale === "1";
 
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
-  const results = searchProducts({ query });
+  const results = searchProducts({ query, saleOnly });
 
   const cardStrings = {
     soum: dict.product.soum,
@@ -57,7 +58,11 @@ export default async function CatalogPage({
     <div className="mx-auto max-w-[1400px] px-4 py-8">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h1 className="text-xl font-bold tracking-tight text-fg sm:text-2xl">
-          {query ? `${dict.catalog.searchedFor}: “${query}”` : dict.catalog.title}
+          {query
+            ? `${dict.catalog.searchedFor}: “${query}”`
+            : saleOnly
+              ? dict.catalog.sale
+              : dict.catalog.title}
         </h1>
         <p className="tabular text-sm text-fg-muted">
           {results.length} {dict.catalog.count}

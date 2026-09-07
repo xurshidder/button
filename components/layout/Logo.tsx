@@ -7,6 +7,12 @@ interface LogoProps {
   height?: number;
   /** True when the logo sits on the brand purple rather than on white. */
   onBrand?: boolean;
+  /**
+   * "wordmark" is the Banana Republic treatment for the text fallback:
+   * uppercase, widely letterspaced, at a size that anchors the header.
+   * "default" keeps Button's own lowercase geometric styling.
+   */
+  variant?: "default" | "wordmark";
   className?: string;
 }
 
@@ -14,13 +20,14 @@ interface LogoProps {
  * Button's logo.
  *
  * Uses real artwork when `public/brand/` contains it (see lib/brand.ts). Until
- * then it renders a text wordmark in the geometric display face — deliberately
- * an approximation, and replaced automatically the moment the file lands.
+ * then it renders a text wordmark — deliberately an approximation, replaced
+ * automatically the moment the file lands.
  */
 export function Logo({
   src,
   height = 28,
   onBrand = false,
+  variant = "default",
   className = "",
 }: LogoProps) {
   if (src) {
@@ -38,12 +45,17 @@ export function Logo({
     );
   }
 
+  const isWordmark = variant === "wordmark";
+
   return (
     <span
-      style={{ fontSize: height }}
-      className={`font-display lowercase leading-none tracking-tight ${
-        onBrand ? "text-brand-ink" : "text-brand"
-      } ${className}`}
+      style={{
+        fontSize: isWordmark ? height * 0.82 : height,
+        letterSpacing: isWordmark ? "0.16em" : undefined,
+      }}
+      className={`font-display leading-none ${
+        isWordmark ? "font-semibold uppercase" : "lowercase tracking-tight"
+      } ${onBrand ? "text-brand-ink" : "text-brand"} ${className}`}
     >
       button
     </span>

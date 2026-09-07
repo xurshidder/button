@@ -424,9 +424,11 @@ function normalise(value: string): string {
 export function searchProducts({
   query,
   categorySlug,
+  saleOnly,
 }: {
   query?: string;
   categorySlug?: string;
+  saleOnly?: boolean;
 }): Product[] {
   let result = getPublishedProducts();
 
@@ -434,6 +436,12 @@ export function searchProducts({
     const category = categories.find((c) => c.slug === categorySlug);
     if (!category) return [];
     result = result.filter((p) => p.categoryId === category.id);
+  }
+
+  // "On sale" is derived, not a flag: an item is discounted when it has an
+  // oldPrice above the current price. One less thing for staff to keep in sync.
+  if (saleOnly) {
+    result = result.filter((p) => p.oldPrice && p.oldPrice > p.basePrice);
   }
 
   const q = query ? normalise(query) : "";

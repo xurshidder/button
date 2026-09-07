@@ -14,13 +14,20 @@
     "close": "Close",
     "search": "Search",
     "searchPlaceholder": "Search products",
-    "account": "Account"
+    "account": "Account",
+    "sale": "Sale",
+    "all": "All"
   },
   "hero": {
     "title": "Quality men's clothing",
     "subtitle": "Brought from Turkey and China. See the prices here — without going to the mall.",
     "ctaPrimary": "Browse catalog",
-    "ctaSecondary": "Store locations"
+    "ctaSecondary": "Store locations",
+    "eyebrow": "NEW COLLECTION",
+    "campaign": "New for Fall",
+    "ctaNew": "New arrivals",
+    "ctaCatalog": "Full catalog",
+    "ctaStores": "Stores"
   },
   "sections": {
     "newArrivals": "New arrivals",
@@ -80,7 +87,8 @@
     "count": "products",
     "noResults": "Nothing found",
     "noResultsHint": "Try a different word, or browse the catalog.",
-    "searchedFor": "Search"
+    "searchedFor": "Search",
+    "sale": "Discounted products"
   },
   "storesPage": {
     "title": "Our stores",
