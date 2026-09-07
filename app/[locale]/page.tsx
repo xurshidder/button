@@ -59,7 +59,13 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 fill
                 priority
                 sizes="100vw"
-                className="object-cover object-[68%_center] md:object-[60%_center]"
+                /*
+                  Anchored above centre. The hero is far wider than any normal
+                  photograph, so object-cover crops top and bottom — and a
+                  centred crop is what decapitates a standing model. Holding at
+                  35% keeps the head in frame across the usual compositions.
+                */
+                className="object-cover object-[center_35%]"
               />
               {/*
                 Neutral scrim rather than a purple one. Banana Republic lets the

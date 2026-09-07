@@ -58,11 +58,22 @@ export function getBrandAssets(): BrandAssets {
 export function getHeroImage(): string | undefined {
   const dir = path.join(process.cwd(), "public", "hero");
   try {
-    const file = fs
+    /*
+     * NEWEST file wins, not the alphabetically first.
+     *
+     * Alphabetical ordering meant dropping in a new photo did nothing if an
+     * older filename happened to sort earlier — which is exactly what happened
+     * with a camera-style name like "photo_2026-09-07_21-17-09.jpg" landing
+     * behind "image.png". "The one I just added" is what anyone dropping a file
+     * in here means, so modification time is the honest rule.
+     */
+    const newest = fs
       .readdirSync(dir)
       .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
-      .sort()[0];
-    return file ? `/hero/${file}` : undefined;
+      .map((f) => ({ f, mtime: fs.statSync(path.join(dir, f)).mtimeMs }))
+      .sort((a, b) => b.mtime - a.mtime)[0];
+
+    return newest ? `/hero/${newest.f}` : undefined;
   } catch {
     return undefined;
   }

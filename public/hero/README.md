@@ -1,25 +1,19 @@
 # Hero image — drop the campaign photo here
 
-> ## ⚠ `main.jpg` is currently a STOCK PLACEHOLDER
+> ## Which file is used
 >
-> Source: [Unsplash](https://unsplash.com/photos/photo-1516257984-b1b4d707412e),
-> under the [Unsplash License](https://unsplash.com/license) — free for
-> commercial use, no attribution required. So it is safe to keep while
-> developing.
+> **The most recently modified image wins.** Drop a new photo in and it takes
+> over immediately — no renaming, no deleting the old one. Older files are
+> harmless but clutter the folder, so tidy up when convenient.
 >
-> **It is not safe to launch with.** It shows a garment Button does not sell, on
-> a model Button did not shoot. A homepage hero is the brand's single biggest
-> visual claim, and pointing it at stock photography tells the customer this is
-> not a real shop. Replace it with Button's own campaign photography before
-> anything goes in front of the client or the public.
+> `main.jpg` is a stock placeholder from Unsplash and `image.png` is a portrait
+> product shot; neither should be the live hero. Delete both once you are happy
+> with the real one.
 
 
-Auto-detected. The first image file in this folder becomes the homepage hero
-background, sitting behind the "Sifatli erkaklar kiyimlari" headline.
-
-```
-public/hero/main.jpg     ← the brown suede jacket shot goes here
-```
+Auto-detected: whichever image here was modified most recently becomes the
+homepage hero background, sitting behind the campaign headline. Any filename
+works — a camera name like `photo_2026-09-07_21-17-09.jpg` is fine.
 
 If the folder is empty the hero falls back to the plain brand-purple gradient,
 so the homepage always looks finished.
