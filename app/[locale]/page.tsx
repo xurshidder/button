@@ -3,10 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { CategoryTile } from "@/components/catalog/CategoryTile";
+import { CampaignMosaic } from "@/components/home/CampaignMosaic";
 import { ProductCard } from "@/components/product/ProductCard";
 import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
+import { getCampaignImages } from "@/lib/brand";
 import { getHeroImageUrl, withUploadedImages } from "@/lib/services/media";
 import { categories, getFeaturedProducts, stores } from "@/lib/mock-data";
 
@@ -18,6 +20,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const typedLocale = locale as Locale;
   const featured = await withUploadedImages(getFeaturedProducts());
   const heroImage = await getHeroImageUrl();
+  const campaignImages = getCampaignImages();
 
   const cardStrings = {
     soum: dict.product.soum,
@@ -127,11 +130,6 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       </section>
 
       {/*
-        CATEGORIES — Uniqlo's "Search by category" pattern: cut-out garments
-        floating on white in a wide, shallow grid, with a pill button below.
-        Six across on desktop keeps it a browsing row rather than a wall.
-      */}
-      {/*
         CATEGORIES — Banana Republic's pattern: tall photographs running nearly
         edge to edge, each with an uppercase name and an underlined link
         beneath. Four across on desktop so each tile is large enough for the
@@ -161,11 +159,22 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         </div>
       </section>
 
+      <CampaignMosaic
+        href={`/${locale}/katalog`}
+        images={campaignImages}
+        t={{
+          eyebrow: dict.campaign.eyebrow,
+          title: dict.campaign.title,
+          text: dict.campaign.text,
+          cta: dict.campaign.cta,
+        }}
+      />
+
       {/*
         NEW ARRIVALS — dense grid, tight gutters, no card chrome. 2 columns on
         mobile and 4 on desktop, so the page reads as a wall of product.
       */}
-      <section className="mx-auto max-w-[1400px] px-4 pb-12">
+      <section className="mx-auto max-w-[1400px] px-4 pb-12 pt-16">
         <div className="flex items-baseline justify-between gap-4 border-t border-border pt-8">
           <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
             {dict.sections.newArrivals}

@@ -91,9 +91,10 @@ export function ProductCard({
         />
       </div>
 
-      <div className="flex flex-col gap-1.5 pt-2.5">
-        {/* Regular weight, tight leading — the photo leads, not the label. */}
-        <h3 className="text-[13px] font-normal leading-snug text-fg group-hover:underline">
+      <div className="flex flex-col gap-1.5 pt-3">
+        {/* Semibold, per the reference: the name anchors the card and the price sits
+            under it in regular weight. */}
+        <h3 className="text-[15px] font-semibold leading-snug text-fg group-hover:underline">
           {product.name[locale]}
         </h3>
 

@@ -132,5 +132,11 @@
     "visitUs": "Visit our stores",
     "orderNote": "To order, press the button on any product page — the name and size are filled in for you.",
     "lead": "Questions? Message us on Telegram or call — we answer quickly."
+  },
+  "campaign": {
+    "eyebrow": "JUST IN",
+    "title": "A wardrobe refresh",
+    "text": "Honest denim, soft suede, thick cotton. Capsule pieces made to mix, match and layer with ease.",
+    "cta": "Shop the edit"
   }
 }

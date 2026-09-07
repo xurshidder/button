@@ -132,5 +132,11 @@
     "visitUs": "Do'konlarga tashrif buyuring",
     "orderNote": "Buyurtma berish uchun mahsulot sahifasidagi tugmani bosing — mahsulot nomi va o'lchami avtomatik yoziladi.",
     "lead": "Savollaringiz bormi? Telegram yoki telefon orqali bog'laning — tez javob beramiz."
+  },
+  "campaign": {
+    "eyebrow": "YANGI TUSHDI",
+    "title": "Garderobni yangilang",
+    "text": "Sifatli jinsi, yumshoq zamsh, qalin paxta. Bir-biriga oson mos keladigan asosiy kiyimlar.",
+    "cta": "Kolleksiyani ko'rish"
   }
 }

@@ -1,4 +1,4 @@
-import { discountPercent, formatSoum } from "@/lib/format";
+import { formatSoum } from "@/lib/format";
 
 interface PriceTagProps {
   price: number;
@@ -15,14 +15,15 @@ const SIZE_CLASSES = {
 } as const;
 
 /**
- * Price is a feature, not something to hide (CLAUDE.md §1) — always bold,
- * always visible, never behind an interaction.
+ * Price is a feature, not something to hide (CLAUDE.md §1) — always visible,
+ * never behind an interaction.
  *
- * Follows Uniqlo's convention (CLAUDE.md §20): when an item is discounted the
- * live price turns red and the original sits next to it, struck through. Red
- * means "promotional" and nothing else — it is never decorative.
- *
- * Tabular numerals stop grids from jittering as digit counts change.
+ * Discount treatment follows Banana Republic: the original struck through in
+ * grey, then the current price in bold BLACK. It used to render the live price
+ * in red, which is Uniqlo's convention — but with the reference moved to BR,
+ * red on every discounted card turns a warm, quiet grid loud. Red is still the
+ * promotional colour; it now lives on the SALE flag over the image, where one
+ * mark does the signalling instead of every price.
  */
 export function PriceTag({
   price,
@@ -30,25 +31,24 @@ export function PriceTag({
   currencyLabel,
   size = "md",
 }: PriceTagProps) {
-  const discount = discountPercent(price, oldPrice);
-  const isDiscounted = discount !== null;
+  const isDiscounted = Boolean(oldPrice && oldPrice > price);
 
   return (
-    <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-      <span
-        className={`tabular font-bold ${SIZE_CLASSES[size]} ${
-          isDiscounted ? "text-sale" : "text-fg"
-        }`}
-      >
-        {formatSoum(price)}
-        <span className="ml-1 text-[0.72em] font-medium">{currencyLabel}</span>
-      </span>
-
+    <div className="flex flex-wrap items-baseline gap-x-2">
       {isDiscounted && oldPrice ? (
-        <span className="tabular text-xs text-fg-muted line-through">
+        <span className={`tabular text-fg-muted line-through ${SIZE_CLASSES[size]}`}>
           {formatSoum(oldPrice)}
         </span>
       ) : null}
+
+      <span
+        className={`tabular text-fg ${SIZE_CLASSES[size]} ${
+          isDiscounted ? "font-bold" : "font-normal"
+        }`}
+      >
+        {formatSoum(price)}
+        <span className="ml-1 text-[0.78em] text-fg-muted">{currencyLabel}</span>
+      </span>
     </div>
   );
 }

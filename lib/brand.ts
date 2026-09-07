@@ -67,3 +67,23 @@ export function getHeroImage(): string | undefined {
     return undefined;
   }
 }
+
+/**
+ * Campaign mosaic imagery, from `public/campaign/`.
+ *
+ * First file alphabetically becomes the large panel; the rest fill the smaller
+ * detail cells. Returns however many exist — the mosaic draws placeholders for
+ * the remainder, so it is never half-broken while photography trickles in.
+ */
+export function getCampaignImages(): string[] {
+  const dir = path.join(process.cwd(), "public", "campaign");
+  try {
+    return fs
+      .readdirSync(dir)
+      .filter((f) => /\.(jpe?g|png|webp|avif)$/i.test(f))
+      .sort()
+      .map((f) => `/campaign/${f}`);
+  } catch {
+    return [];
+  }
+}
