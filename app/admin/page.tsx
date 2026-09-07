@@ -23,7 +23,13 @@ export default async function AdminLoginPage({
   async function login(formData: FormData) {
     "use server";
 
-    const password = String(formData.get("password") ?? "");
+    /*
+     * Trimmed. Copying a value out of .env.local drags a trailing space or
+     * newline along more often than not, and rejecting that reads to the user
+     * as "wrong password" with no way to tell the difference. Surrounding
+     * whitespace is never meaningful in a password anyone types.
+     */
+    const password = String(formData.get("password") ?? "").trim();
     if (!isCorrectPassword(password)) {
       // Deliberately vague: never reveal whether a password was close.
       redirect("/admin?error=1");
