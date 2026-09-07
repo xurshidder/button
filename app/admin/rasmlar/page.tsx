@@ -34,6 +34,10 @@ export default async function AdminImagesPage() {
     <main className="mx-auto max-w-4xl px-4 py-10">
       <div className="flex items-baseline justify-between gap-4">
         <h1 className="text-xl font-bold text-fg">Rasmlar</h1>
+        <nav className="flex gap-4 text-sm">
+          <Link href="/admin/mahsulotlar" className="text-fg-muted underline-offset-4 hover:text-fg hover:underline">Mahsulotlar</Link>
+          <Link href="/admin/ombor" className="text-fg-muted underline-offset-4 hover:text-fg hover:underline">Ombor</Link>
+        </nav>
         <form action={logout}>
           <button
             type="submit"

@@ -15,7 +15,7 @@ import {
 export default async function AdminLoginPage({
   searchParams,
 }: PageProps<"/admin">) {
-  if (await isAuthenticated()) redirect("/admin/rasmlar");
+  if (await isAuthenticated()) redirect("/admin/mahsulotlar");
 
   const { error } = await searchParams;
   const failed = error === "1";
@@ -29,7 +29,7 @@ export default async function AdminLoginPage({
       redirect("/admin?error=1");
     }
     await startSession();
-    redirect("/admin/rasmlar");
+    redirect("/admin/mahsulotlar");
   }
 
   return (
