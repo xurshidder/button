@@ -73,13 +73,13 @@ export function ProductCard({
 
         {/* Promotional flag. Red means "promotional" and nothing else. */}
         {product.oldPrice && !isOut ? (
-          <span className="absolute left-3 top-3 rounded-full bg-sale px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+          <span className="absolute left-0 top-0 bg-sale px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white">
             {t.sale}
           </span>
         ) : null}
 
         {isOut ? (
-          <span className="absolute left-3 top-3 rounded-full bg-fg px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+          <span className="absolute left-0 top-0 bg-fg px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white">
             {t.outOfStock}
           </span>
         ) : null}

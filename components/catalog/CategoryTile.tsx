@@ -1,70 +1,80 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { GarmentIcon } from "@/components/product/GarmentIcon";
+
 interface CategoryTileProps {
   href: string;
   label: string;
-  /**
-   * Category image — ideally a cut-out garment on a white/transparent
-   * background, in Uniqlo's "Search by category" idiom. Undefined until
-   * Button supplies artwork.
-   */
+  /** Localised "Shop now". */
+  shopNowLabel: string;
+  /** Category slug — picks the silhouette shown until a photo exists. */
+  slug?: string;
+  /** Category photograph. */
   src?: string;
   priority?: boolean;
 }
 
 /**
- * Category entry modelled on Uniqlo's "Search by category" row: a single
- * garment floating on white, with a small centred label underneath.
+ * Category tile in the Banana Republic idiom: a tall photograph running
+ * edge to edge, then the category name in uppercase, then an underlined
+ * "shop now" link.
  *
- * Deliberately has NO card, border or background — the cut-out sits directly on
- * the page. That is what makes the row feel light instead of like a grid of
- * boxes, and it is the detail that separates it from a plain link directory.
+ * The photograph is the whole tile — no card, no border, no radius. That is
+ * what makes the row read as editorial rather than as a menu of buttons, and
+ * it is why the previous version of this (small rounded chips with an icon)
+ * looked like a placeholder even once photos were added.
+ *
+ * 3:4 rather than the products' 4:5 — category imagery is lifestyle and wants
+ * more height; product imagery is uniform so the grid stays even.
  */
 export function CategoryTile({
   href,
   label,
+  shopNowLabel,
+  slug,
   src,
   priority = false,
 }: CategoryTileProps) {
   return (
-    <Link
-      href={href}
-      className="group flex flex-col items-center gap-2 rounded-2xl p-2 transition-colors duration-200 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
-    >
-      <div className="relative flex aspect-square w-full max-w-[120px] items-center justify-center">
-        {src ? (
-          <Image
-            src={src}
-            alt=""
-            fill
-            sizes="120px"
-            priority={priority}
-            /* object-contain, not cover: a cut-out must never be cropped. */
-            className="object-contain transition-transform duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-105"
-          />
-        ) : (
-          <div className="flex size-full items-center justify-center rounded-2xl bg-surface">
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.25"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-7 text-fg-disabled"
-              aria-hidden="true"
-            >
-              <path d="M12 6a2 2 0 1 1 2 2c-1.2 0-2 .8-2 2" />
-              <path d="M12 10 3.5 16.2a1 1 0 0 0 .6 1.8h15.8a1 1 0 0 0 .6-1.8L12 10Z" />
-            </svg>
-          </div>
-        )}
-      </div>
+    <div className="group flex flex-col">
+      <Link
+        href={href}
+        tabIndex={-1}
+        aria-hidden={src ? undefined : "true"}
+        className="block overflow-hidden"
+      >
+        <div className="relative aspect-3/4 w-full overflow-hidden bg-surface">
+          {src ? (
+            <Image
+              src={src}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 50vw, 25vw"
+              priority={priority}
+              className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:scale-[1.03]"
+            />
+          ) : (
+            <div className="flex size-full items-center justify-center">
+              <GarmentIcon
+                categorySlug={slug}
+                className="size-20 text-fg-disabled"
+              />
+            </div>
+          )}
+        </div>
+      </Link>
 
-      <span className="text-center text-[13px] leading-snug text-fg group-hover:underline">
+      <h3 className="mt-4 text-lg font-normal uppercase tracking-[0.04em] text-fg sm:text-xl">
         {label}
-      </span>
-    </Link>
+      </h3>
+
+      <Link
+        href={href}
+        className="mt-1.5 w-fit border-b border-fg pb-0.5 text-[13px] uppercase tracking-[0.08em] text-fg transition-colors hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+      >
+        {shopNowLabel}
+      </Link>
+    </div>
   );
 }

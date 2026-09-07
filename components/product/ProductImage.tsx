@@ -39,7 +39,7 @@ export function ProductImage({
 }: ProductImageProps) {
   if (src) {
     return (
-      <div className="relative aspect-4/5 w-full overflow-hidden rounded-xl bg-surface">
+      <div className="relative aspect-4/5 w-full overflow-hidden bg-surface">
         <Image
           src={src}
           alt={alt}
@@ -56,7 +56,7 @@ export function ProductImage({
     /* Flat warm surface, not a purple-tinted gradient: against the warm
        neutral ramp a cool lilac wash reads as a mismatch rather than a tint.
        The purple stays where it belongs — on the drawing itself. */
-    <div className="relative flex aspect-4/5 w-full flex-col items-center justify-center gap-3 overflow-hidden rounded-xl bg-surface">
+    <div className="relative flex aspect-4/5 w-full flex-col items-center justify-center gap-3 overflow-hidden bg-surface">
       <GarmentIcon
         categorySlug={categorySlug}
         className="size-16 text-brand/25 sm:size-20"

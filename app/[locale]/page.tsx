@@ -131,26 +131,30 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         floating on white in a wide, shallow grid, with a pill button below.
         Six across on desktop keeps it a browsing row rather than a wall.
       */}
-      <section className="mx-auto max-w-[1400px] px-4 py-12 sm:py-16">
-        <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
-          {dict.sections.categories}
-        </h2>
-
-        <div className="mt-6 grid grid-cols-3 gap-x-2 gap-y-6 sm:grid-cols-4 lg:grid-cols-6">
-          {categories.map((category, i) => (
+      {/*
+        CATEGORIES — Banana Republic's pattern: tall photographs running nearly
+        edge to edge, each with an uppercase name and an underlined link
+        beneath. Four across on desktop so each tile is large enough for the
+        photograph to do the selling; two on mobile.
+      */}
+      <section className="py-12 sm:py-16">
+        <div className="grid grid-cols-2 gap-x-1 gap-y-10 px-1 md:grid-cols-4">
+          {categories.slice(0, 4).map((category, i) => (
             <CategoryTile
               key={category.id}
               href={`/${locale}/katalog/${category.slug}`}
               label={category.name[typedLocale]}
-              priority={i < 6}
+              shopNowLabel={dict.sections.shopNow}
+              slug={category.slug}
+              priority={i < 4}
             />
           ))}
         </div>
 
-        <div className="mt-8 flex justify-center">
+        <div className="mt-12 flex justify-center px-4">
           <Link
             href={`/${locale}/katalog`}
-            className="rounded-full border border-fg px-12 py-3.5 text-sm font-medium text-fg transition hover:bg-fg hover:text-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="border border-fg px-14 py-4 text-[13px] font-semibold uppercase tracking-[0.1em] text-fg transition hover:bg-fg hover:text-bg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             {dict.sections.allCategories}
           </Link>
