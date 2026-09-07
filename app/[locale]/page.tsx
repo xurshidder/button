@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 
 import { CategoryTile } from "@/components/catalog/CategoryTile";
 import { CampaignMosaic } from "@/components/home/CampaignMosaic";
-import { ProductCard } from "@/components/product/ProductCard";
+import { ProductCarousel } from "@/components/product/ProductCarousel";
 import { formatPhone, telHref } from "@/lib/format";
 import { isLocale, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
@@ -171,33 +171,24 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
       />
 
       {/*
-        NEW ARRIVALS — dense grid, tight gutters, no card chrome. 2 columns on
-        mobile and 4 on desktop, so the page reads as a wall of product.
+        NEW ARRIVALS — a scrolling row rather than a static grid, so the shelf
+        can hold more than four without pushing the rest of the page down.
       */}
-      <section className="mx-auto max-w-[1400px] px-4 pb-12 pt-16">
-        <div className="flex items-baseline justify-between gap-4 border-t border-border pt-8">
-          <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
-            {dict.sections.newArrivals}
-          </h2>
-          <Link
-            href={`/${locale}/katalog`}
-            className="text-[13px] font-medium text-fg underline-offset-4 hover:underline"
-          >
-            {dict.sections.viewAll} →
-          </Link>
-        </div>
-
-        <div className="mt-5 grid grid-cols-2 gap-x-3 gap-y-8 md:grid-cols-4">
-          {featured.map((product, i) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              locale={typedLocale}
-              t={cardStrings}
-              priority={i < 2}
-            />
-          ))}
-        </div>
+      <section className="mx-auto max-w-[1600px] px-4 pb-12 pt-16 lg:px-8">
+        <ProductCarousel
+          products={featured}
+          locale={typedLocale}
+          title={dict.sections.newArrivals}
+          viewAll={{
+            href: `/${locale}/katalog`,
+            label: dict.sections.viewAll,
+          }}
+          labels={{
+            previous: dict.sections.previous,
+            next: dict.sections.next,
+          }}
+          t={cardStrings}
+        />
       </section>
 
       {/* STORES — Button's real advantage over a marketplace is being a real

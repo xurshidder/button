@@ -35,7 +35,9 @@
     "ourStores": "Наши магазины",
     "viewAll": "Смотреть все",
     "allCategories": "Все категории",
-    "shopNow": "Смотреть"
+    "shopNow": "Смотреть",
+    "previous": "Назад",
+    "next": "Вперёд"
   },
   "product": {
     "soum": "сум",

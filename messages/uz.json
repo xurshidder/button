@@ -35,7 +35,9 @@
     "ourStores": "Bizning do'konlar",
     "viewAll": "Barchasini ko'rish",
     "allCategories": "Barcha kategoriyalar",
-    "shopNow": "Xarid qilish"
+    "shopNow": "Xarid qilish",
+    "previous": "Oldingi",
+    "next": "Keyingi"
   },
   "product": {
     "soum": "so'm",

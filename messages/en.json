@@ -35,7 +35,9 @@
     "ourStores": "Our stores",
     "viewAll": "View all",
     "allCategories": "View all categories",
-    "shopNow": "Shop now"
+    "shopNow": "Shop now",
+    "previous": "Previous",
+    "next": "Next"
   },
   "product": {
     "soum": "soum",
