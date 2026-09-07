@@ -105,6 +105,7 @@ export default async function ProductPage({
             src={product.images[0]?.url}
             alt={product.name[typedLocale]}
             pendingLabel={dict.product.photoPending}
+            categorySlug={product.categorySlug}
             priority
           />
         </div>

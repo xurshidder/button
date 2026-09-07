@@ -66,6 +66,7 @@ export function ProductCard({
             src={product.images[0]?.url}
             alt={product.name[locale]}
             pendingLabel={t.photoPending}
+            categorySlug={product.categorySlug}
             priority={priority}
           />
         </div>

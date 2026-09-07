@@ -200,7 +200,7 @@ const BROWN = { name: { uz: "Jigarrang", ru: "Коричневый", en: "Brown"
 const TEAL = { name: { uz: "To'q yashil", ru: "Тёмно-зелёный", en: "Teal" }, hex: "#1F4F4A" };
 const WHITE = { name: { uz: "Oq", ru: "Белый", en: "White" }, hex: "#FFFFFF" };
 
-export const products: Product[] = [
+const rawProducts: Product[] = [
   {
     id: "p-bomber-black",
     slug: "qora-bomber-kurtka",
@@ -390,6 +390,18 @@ export const products: Product[] = [
     images: imagesFor("klassik-oq-koylak", "Klassik oq ko'ylak"),
   },
 ];
+
+/**
+ * Products, each carrying its category slug.
+ *
+ * Denormalised here so ProductCard can pick a placeholder drawing without
+ * importing this module — it is rendered inside a client component too, and
+ * this file reads the filesystem.
+ */
+export const products: Product[] = rawProducts.map((product) => ({
+  ...product,
+  categorySlug: categories.find((c) => c.id === product.categoryId)?.slug,
+}));
 
 export function getFeaturedProducts(): Product[] {
   return products.filter((p) => p.status === "PUBLISHED" && p.isFeatured);

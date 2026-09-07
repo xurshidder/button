@@ -61,6 +61,8 @@ export interface Product {
   name: Translated;
   description?: Translated;
   categoryId: string;
+  /** Denormalised for components that must not import the data layer. */
+  categorySlug?: string;
   /** Integer so'm. Never a float. */
   basePrice: number;
   /** Original price, for showing a discount. Integer so'm. */
