@@ -63,7 +63,7 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
           aria-label="Button"
           className="flex shrink-0 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
         >
-          <Logo src={logoSrc} height={26} variant="wordmark" />
+          <Logo src={logoSrc} height={27} variant="wordmark" />
         </Link>
 
         {/* Inline category nav — uppercase and letterspaced, BR's treatment. */}
@@ -75,7 +75,7 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
             <Link
               key={item.href}
               href={item.href}
-              className={`whitespace-nowrap text-[13px] uppercase tracking-[0.08em] transition-colors hover:text-brand ${
+              className={`font-display whitespace-nowrap text-[15px] uppercase tracking-[0.1em] transition-colors hover:text-brand ${
                 item.isSale ? "text-sale" : "text-fg"
               }`}
             >
@@ -147,7 +147,7 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
           <Link
             key={item.href}
             href={item.href}
-            className={`whitespace-nowrap text-xs uppercase tracking-[0.08em] transition-colors hover:text-brand ${
+            className={`font-display whitespace-nowrap text-[13px] uppercase tracking-[0.1em] transition-colors hover:text-brand ${
               item.isSale ? "text-sale" : "text-fg-muted"
             }`}
           >

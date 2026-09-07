@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Poppins } from "next/font/google";
+import { Playfair_Display, Poppins } from "next/font/google";
 
 import "../globals.css";
 
@@ -17,13 +17,21 @@ import { getDictionary } from "@/lib/i18n/dictionaries";
 import { notFound } from "next/navigation";
 
 /**
- * Wordmark only — Button's logo is set in a geometric rounded lowercase sans,
- * and Poppins is the closest widely-available match. Loaded at a single weight
- * because it renders exactly one word on the page.
+ * Header face. Banana Republic sets both its wordmark and its top navigation
+ * in a high-contrast serif; Playfair Display is the closest widely-available
+ * match. Two weights only, and it is used on a handful of words, so the
+ * download stays small.
  *
- * TODO: replace the text wordmark with the real logo SVG once the client
- * supplies the vector file, and drop this font.
+ * TODO: once the real logo vector lands, the wordmark becomes an SVG and this
+ * font is needed for the nav alone.
  */
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin", "latin-ext", "cyrillic"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
@@ -95,7 +103,7 @@ export default async function LocaleLayout({
   return (
     <html
       lang={localeHtmlLang[typedLocale]}
-      className={`${poppins.variable} h-full antialiased`}
+      className={`${poppins.variable} ${playfair.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
         <Header

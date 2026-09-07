@@ -31,7 +31,7 @@ export function Footer({ locale, logoSrc, t }: FooterProps) {
     <footer className="mt-16 border-t border-border bg-surface">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <Logo src={logoSrc} height={28} />
+          <Logo src={logoSrc} height={24} variant="wordmark" />
           <p className="mt-1 text-sm text-fg-muted">{t.tagline}</p>
         </div>
 

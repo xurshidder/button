@@ -71,9 +71,11 @@
      bytes, which is part of how we beat just2010.uz on speed. */
   --font-sans: "Helvetica Neue", Helvetica, Arial, system-ui, -apple-system,
     sans-serif;
-  /* Wordmark only. Matches Button's LOGO, which is geometric — the logo wins
-     over the Uniqlo reference here. */
-  --font-display: var(--font-poppins), var(--font-sans);
+  /* Header wordmark and top navigation. High-contrast serif, matching the
+     Banana Republic reference the client chose. */
+  --font-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  /* Geometric fallback, kept for anywhere Button's own logo shape is wanted. */
+  --font-geometric: var(--font-poppins), var(--font-sans);
 }
 
 body {
