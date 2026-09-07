@@ -88,12 +88,15 @@ export default async function LocaleLayout({
   const logoSrc = brand.wordmark ?? brand.full;
 
   /*
-   * Categories sit inline in the header, Banana Republic style. Six keeps the
-   * row readable at typical widths; the rest stay one tap away on the
-   * catalogue page. Sale is last and carries the sale colour, as BR does.
+   * Categories sit inline in the header, Banana Republic style — but BR's
+   * labels are single short English words ("LINEN", "SALE") while ours are
+   * phrases in Uzbek and Russian ("Sviter va trikotaj", "Верхняя одежда").
+   * Seven of those overflow the row and collide with the wordmark, so the
+   * header carries FIVE and the rest stay one tap away on the catalogue page.
+   * Sale is last and carries the sale colour, as BR does.
    */
   const navItems = [
-    ...categories.slice(0, 6).map((category) => ({
+    ...categories.slice(0, 5).map((category) => ({
       href: `/${locale}/katalog/${category.slug}`,
       label: category.name[typedLocale],
     })),

@@ -91,7 +91,9 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
               {dict.hero.eyebrow}
             </p>
 
-            <h1 className="mt-3 max-w-2xl text-4xl font-normal leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
+            {/* Serif, matching the reference — BR sets its campaign headline in
+                Didot while the eyebrow and buttons stay sans. */}
+            <h1 className="font-display mt-3 max-w-2xl text-4xl font-normal leading-[1.08] text-white sm:text-5xl lg:text-[64px]">
               {dict.hero.campaign}
             </h1>
 

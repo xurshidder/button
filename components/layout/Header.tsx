@@ -61,7 +61,7 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
         <Link
           href={`/${locale}`}
           aria-label="Button"
-          className="flex shrink-0 items-center rounded-lg focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+          className="flex shrink-0 items-center rounded-lg mr-2 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
         >
           <Logo src={logoSrc} height={27} variant="wordmark" />
         </Link>
@@ -69,13 +69,13 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
         {/* Inline category nav — uppercase and letterspaced, BR's treatment. */}
         <nav
           aria-label="Primary"
-          className="hidden min-w-0 flex-1 items-center justify-center gap-6 xl:flex xl:gap-8"
+          className="hidden min-w-0 flex-1 items-center justify-center gap-5 overflow-hidden xl:flex"
         >
           {nav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`font-display whitespace-nowrap text-[15px] uppercase tracking-[0.1em] transition-colors hover:text-brand ${
+              className={`font-display whitespace-nowrap text-[13px] uppercase tracking-[0.06em] transition-colors hover:text-brand ${
                 item.isSale ? "text-sale" : "text-fg"
               }`}
             >
@@ -84,8 +84,8 @@ export function Header({ locale, logoSrc, nav, t }: HeaderProps) {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 xl:ml-0">
-          <div className="hidden w-52 lg:block">
+        <div className="ml-auto flex shrink-0 items-center gap-1.5 xl:ml-0">
+          <div className="hidden w-44 shrink-0 xl:block">
             <SearchBar
               locale={locale}
               placeholder={t.searchPlaceholder}
