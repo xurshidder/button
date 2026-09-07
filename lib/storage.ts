@@ -28,6 +28,21 @@ function config() {
   return { url, key };
 }
 
+/**
+ * Auth headers for the Storage API.
+ *
+ * `apikey` is the one that matters. Supabase's newer `sb_secret_…` keys are
+ * NOT JWTs, and Storage tries to parse an `Authorization: Bearer` value as
+ * one — it answers "Invalid Compact JWS" and rejects the request. Passed as
+ * `apikey` the same key is accepted.
+ *
+ * `Authorization` is sent as well so this keeps working for anyone still on a
+ * legacy service-role JWT, where that header is the expected route.
+ */
+function authHeaders(key: string): Record<string, string> {
+  return { apikey: key, Authorization: `Bearer ${key}` };
+}
+
 /** Public URL for an object, assuming the bucket is public. */
 export function publicUrl(objectPath: string): string {
   const { url } = config();
@@ -53,7 +68,7 @@ export async function uploadObject(
     {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${key}`,
+        ...authHeaders(key),
         "Content-Type": contentType,
         "x-upsert": "true",
         "Cache-Control": "60",
@@ -75,7 +90,7 @@ export async function deleteObject(objectPath: string): Promise<void> {
   const { url, key } = config();
   const response = await fetch(
     `${url}/storage/v1/object/${BUCKET}/${objectPath}`,
-    { method: "DELETE", headers: { Authorization: `Bearer ${key}` } },
+    { method: "DELETE", headers: authHeaders(key) },
   );
   if (!response.ok && response.status !== 404) {
     throw new Error(`Storage delete failed (${response.status})`);
