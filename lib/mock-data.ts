@@ -1,5 +1,11 @@
-import "server-only";
-
+/*
+ * No `import "server-only"` here on purpose.
+ *
+ * This module is server-only in practice — it imports `node:fs`, so any
+ * attempt to pull it into a client bundle fails at build time regardless. The
+ * explicit guard would be redundant, and it actively breaks the seed script,
+ * which runs under plain Node where `server-only` throws by design.
+ */
 import fs from "node:fs";
 import path from "node:path";
 

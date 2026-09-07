@@ -374,6 +374,31 @@ button-web/
 
 ## 7. Data model
 
+> **The canonical schema is now `prisma/schema.prisma`** — it is applied to the real database.
+> The listing below is the design rationale; if the two disagree, the `.prisma` file wins and
+> this section should be corrected. Differences already applied: translated `material*` and
+> `origin*` columns, `addressEn` on Store, `sortOrder` on Store, and a `SearchQuery` model for
+> zero-result logging.
+
+### Prisma 7 — connection handling differs from older knowledge
+Verified against `@prisma/client@7.10.0` on 2026-09-07. This cost real time; do not relearn it.
+
+- **`directUrl` no longer exists in `schema.prisma`.** Connection URLs moved to
+  `prisma.config.ts`, whose `datasource` accepts only `url` and `shadowDatabaseUrl`.
+- **That config `url` must be the DIRECT (5432) string**, because the CLI uses it for
+  `migrate`, which runs DDL — and Supavisor in transaction mode cannot execute DDL.
+- **`datasourceUrl` is no longer a `PrismaClient` constructor option.** The runtime connection
+  is supplied through a **driver adapter** (`@prisma/adapter-pg`), and that is where the
+  **POOLED (6543)** string goes — see `lib/db.ts`.
+- So the split from §21.2 now lives in two files: `prisma.config.ts` = direct/migrations,
+  `lib/db.ts` = pooled/runtime. Getting them backwards works locally and fails under load.
+- Prisma reads `.env`, not `.env.local`; `prisma.config.ts` loads `.env.local` explicitly so
+  there is one source of truth for credentials.
+- `prisma@latest` currently resolves to an **8.0.0-rc** with a different, platform-oriented
+  CLI. **Pin to 7.x** until 8 is stable.
+
+### Model design
+
 Modelled on how a **reseller** works: one *Product* (a style), many *Variants*
 (colour × size = the thing that actually has a price and a stock count), stock counted
 **per branch**.

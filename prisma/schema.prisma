@@ -1,0 +1,240 @@
+// Button — database schema.
+// Canonical documentation for these models lives in CLAUDE.md §7.
+// If you change a model here, update §7 in the same commit.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Connection URLs live in prisma.config.ts as of Prisma 7 — the pooled
+  // string is used at runtime and the direct one for migrations.
+}
+
+/// A style. The thing a customer thinks of as "a product".
+model Product {
+  id     String @id @default(cuid())
+  slug   String @unique
+  sku    String @unique
+
+  nameUz String
+  nameRu String
+  nameEn String
+
+  descUz String? @db.Text
+  descRu String? @db.Text
+  descEn String? @db.Text
+
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
+
+  /// UZS, integer. NEVER a float or a decimal — so'm has no practical subunit.
+  basePrice Int
+  /// Original price, shown struck through when discounted. Also integer UZS.
+  oldPrice  Int?
+
+  materialUz String?
+  materialRu String?
+  materialEn String?
+
+  /// Country of manufacture. Button states this openly — Turkish origin is a
+  /// selling point in this market, and honesty about Chinese origin costs
+  /// nothing (CLAUDE.md §1).
+  originUz String?
+  originRu String?
+  originEn String?
+
+  careNotes  String?
+  status     ProductStatus @default(DRAFT)
+  isFeatured Boolean       @default(false)
+
+  variants Variant[]
+  images   ProductImage[]
+  views    ProductView[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([categoryId, status])
+  @@index([status, createdAt])
+}
+
+enum ProductStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+/// colour × size. The unit that actually carries a price and a stock count.
+model Variant {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  colorNameUz String
+  colorNameRu String
+  colorNameEn String
+  /// Hex, for the swatch on the card and product page.
+  colorHex    String
+
+  size String
+
+  /// Rare: an XXL that costs more than the base price.
+  priceOverride Int?
+
+  stock StockLevel[]
+
+  @@unique([productId, colorNameUz, size])
+  @@index([productId])
+}
+
+/// Stock for one variant at one branch. This is the differentiator over
+/// Terra Pro and JUST — neither shows per-branch availability (CLAUDE.md §2).
+model StockLevel {
+  id        String  @id @default(cuid())
+  variantId String
+  variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  storeId   String
+  store     Store   @relation(fields: [storeId], references: [id])
+  quantity  Int     @default(0)
+
+  updatedAt DateTime @updatedAt
+
+  @@unique([variantId, storeId])
+  @@index([storeId])
+}
+
+model Store {
+  id String @id @default(cuid())
+
+  nameUz String
+  nameRu String
+  nameEn String
+
+  addressUz String
+  addressRu String
+  addressEn String
+
+  district String
+  city     String @default("Toshkent")
+  phone    String
+
+  lat Float?
+  lng Float?
+
+  hoursOpen  String @default("10:00")
+  /// VERIFY with client — sources disagree between 22:00 and 23:00.
+  hoursClose String @default("23:00")
+
+  yandexMapUrl String?
+  isActive     Boolean @default(true)
+  sortOrder    Int     @default(0)
+
+  stock      StockLevel[]
+  adminUsers AdminUser[]
+}
+
+model Category {
+  id   String @id @default(cuid())
+  slug String @unique
+
+  nameUz String
+  nameRu String
+  nameEn String
+
+  /// Self-relation so a women's or children's branch can be added without a
+  /// migration. Do not hardcode "men" into routes or copy (CLAUDE.md §18).
+  parentId String?
+  parent   Category?  @relation("Tree", fields: [parentId], references: [id])
+  children Category[] @relation("Tree")
+
+  sortOrder Int       @default(0)
+  products  Product[]
+
+  @@index([parentId])
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  /// Object-storage key or public URL. The bytes live in Supabase Storage,
+  /// never in Postgres.
+  url      String
+  blurHash String?
+  altUz    String?
+
+  /// Ties an image to a colour variant, so picking a colour can swap the photo.
+  colorName String?
+  sortOrder Int     @default(0)
+
+  @@index([productId, sortOrder])
+}
+
+model AdminUser {
+  id String @id @default(cuid())
+
+  /// Uzbek retail staff think in phone numbers, not email addresses.
+  phone        String  @unique
+  name         String
+  passwordHash String
+  role         Role    @default(MANAGER)
+
+  /// A MANAGER is scoped to exactly one branch and may only touch its stock.
+  storeId String?
+  store   Store?  @relation(fields: [storeId], references: [id])
+
+  isActive    Boolean   @default(true)
+  lastLoginAt DateTime?
+  createdAt   DateTime  @default(now())
+}
+
+enum Role {
+  OWNER
+  ADMIN
+  MANAGER
+}
+
+/// Who changed what. Non-negotiable in a retail business with staff turnover —
+/// "who dropped the price to 1000 so'm" is a question that will get asked.
+model AuditLog {
+  id       String @id @default(cuid())
+  actorId  String
+  action   String
+  entity   String
+  entityId String
+  diff     Json
+
+  createdAt DateTime @default(now())
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
+
+/// What people look at but do not buy is a buying signal, and it is what we
+/// report back to the client weekly (CLAUDE.md §21.4).
+model ProductView {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  locale    String
+
+  createdAt DateTime @default(now())
+
+  @@index([productId, createdAt])
+}
+
+/// Zero-result searches are free merchandising intelligence — they tell Button
+/// what customers want that it does not stock (CLAUDE.md §15).
+model SearchQuery {
+  id          String @id @default(cuid())
+  query       String
+  locale      String
+  resultCount Int
+
+  createdAt DateTime @default(now())
+
+  @@index([resultCount, createdAt])
+}
