@@ -1,7 +1,7 @@
 import path from "node:path";
 
 import { config as loadEnv } from "dotenv";
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 
 /**
  * Prisma reads `.env` by default, but Next.js keeps local secrets in
@@ -26,7 +26,17 @@ export default defineConfig({
      * split is the whole point of CLAUDE.md §21.2: migrations go direct,
      * request traffic goes through the pooler.
      */
-    url: env("DIRECT_URL"),
+    /*
+     * Read directly rather than through Prisma's `env()` helper, which throws
+     * the moment the config file loads if the variable is absent.
+     *
+     * That broke `prisma generate`, which needs no database at all — so a
+     * deploy with the environment not yet configured failed at the first step
+     * with an error about config loading rather than about a missing variable.
+     * Empty here means `migrate deploy` is what complains, and it says plainly
+     * that it cannot reach a database.
+     */
+    url: process.env.DIRECT_URL ?? "",
   },
 
   migrations: {

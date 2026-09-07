@@ -1,6 +1,11 @@
+# pnpm blocks dependency build scripts unless they are listed here.
+#
+# Prisma MUST be allowed: its postinstall downloads the query engine, and
+# without it `prisma generate` produces a client that cannot connect. That
+# failure only shows up on a clean install — a local machine that already has
+# the engines cached keeps working, which makes it a deploy-only break.
 allowBuilds:
-  '@prisma/engines': set this to true or false
-  esbuild: set this to true or false
-  prisma: set this to true or false
-  sharp: false
-  unrs-resolver: false
+  '@prisma/engines': true
+  prisma: true
+  esbuild: true
+  unrs-resolver: true
