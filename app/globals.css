@@ -112,6 +112,55 @@ body {
 }
 
 /**
+ * Soft vertical wash from white into the warm surface.
+ *
+ * Used to end a white section rather than butting it against a coloured one
+ * with a hard seam. Kept extremely subtle on purpose — the warm ramp is only
+ * a few points off white, and a gradient loud enough to notice would fight the
+ * photography, which is the thing meant to carry these pages.
+ */
+.surface-fade {
+  background-image: linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+}
+
+/** Deep brand wash, for panels that should feel like Button rather than paper. */
+.brand-fade {
+  background-image: linear-gradient(
+    180deg,
+    var(--surface) 0%,
+    var(--brand-muted) 100%
+  );
+}
+
+/**
+ * Hero copy release.
+ *
+ * The pinning itself is done with `position: sticky`, which needs no
+ * JavaScript and cannot jank. This only adds the fade as the section scrolls
+ * away, and only where the browser supports scroll-driven animations — every
+ * other browser still gets the pin, just without the fade.
+ *
+ * Suppressed under prefers-reduced-motion: a large moving hero is exactly the
+ * kind of thing that triggers motion sickness.
+ */
+@keyframes hero-release {
+  to {
+    opacity: 0;
+    transform: translateY(-2rem);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-copy {
+      animation: hero-release linear both;
+      animation-timeline: view();
+      animation-range: exit 10% exit 70%;
+    }
+  }
+}
+
+/**
  * Corner radius scale.
  *
  * Not everything is square (CLAUDE.md §20). Interactive chrome — buttons,

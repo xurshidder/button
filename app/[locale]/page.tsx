@@ -40,16 +40,16 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   return (
     <>
       {/*
-        HERO — full-bleed banner, the Uniqlo pattern. Deliberately compact in
-        height: a full-screen silent hero pushes product below the fold and
-        signals "expensive", which is wrong for this business (CLAUDE.md §1).
-
-        Currently a brand-purple panel. When Button supplies a campaign photo,
-        this becomes a background image with the same text block over it.
+        HERO — pinned while the page scrolls past it.
+        The section is taller than the viewport; the panel inside is sticky, so
+        the photograph and copy hold still, then release as the next section
+        pushes them up. Done with `position: sticky` rather than a scroll
+        listener: no JavaScript, nothing to jank on a mid-range Android, and it
+        degrades to an ordinary hero if sticky is unavailable.
       */}
-      <section>
+      <section className="relative h-[128vh] sm:h-[135vh]">
         <div
-          className={`relative overflow-hidden ${heroImage ? "" : "brand-gradient"}`}
+          className={`sticky top-0 h-screen overflow-hidden ${heroImage ? "" : "brand-gradient"}`}
         >
           {heroImage ? (
             <>
@@ -93,13 +93,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             />
           )}
 
-          {/*
-            Text block sits bottom-left over the image. Height is capped well
-            short of a full screen: an editorial hero that fills the viewport
-            pushes priced product below the fold, which is the wrong trade for
-            this business (CLAUDE.md §1).
-          */}
-          <div className="relative mx-auto flex min-h-[520px] max-w-[1600px] flex-col justify-end px-6 pb-12 pt-24 sm:min-h-[600px] sm:px-10 sm:pb-16 lg:min-h-[660px] lg:px-16 lg:pb-20">
+          {/* Copy sits bottom-left over the image and fades on release. */}
+          <div className="hero-copy relative mx-auto flex h-full max-w-[1600px] flex-col justify-end px-6 pb-14 pt-24 sm:px-10 sm:pb-20 lg:px-16">
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-white/85">
               {dict.hero.eyebrow}
             </p>
@@ -145,7 +140,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         beneath. Four across on desktop so each tile is large enough for the
         photograph to do the selling; two on mobile.
       */}
-      <section className="py-12 sm:py-16">
+      <section className="surface-fade py-12 sm:py-16">
         <div className="grid grid-cols-2 gap-x-1 gap-y-10 px-1 md:grid-cols-4">
           {categories.slice(0, 4).map((category, i) => (
             <CategoryTile
@@ -203,7 +198,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
 
       {/* STORES — Button's real advantage over a marketplace is being a real
           shop with a real address (CLAUDE.md §2). */}
-      <section className="border-t border-border bg-surface">
+      <section className="brand-fade border-t border-border">
         <div className="mx-auto max-w-[1400px] px-4 py-12">
           <h2 className="text-lg font-bold tracking-tight text-fg sm:text-xl">
             {dict.sections.ourStores}

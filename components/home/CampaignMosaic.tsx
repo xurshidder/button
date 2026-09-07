@@ -67,7 +67,7 @@ export function CampaignMosaic({ href, images, t }: CampaignMosaicProps) {
   const [hero, ...details] = images;
 
   return (
-    <section className="px-1">
+    <section className="bg-surface px-1 pb-1">
       <div className="grid gap-1 md:grid-cols-2">
         {/* Large panel with the copy overlaid, bottom-left. */}
         <div className="relative aspect-4/5 w-full overflow-hidden md:aspect-auto md:min-h-[560px]">
