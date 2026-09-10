@@ -12,6 +12,7 @@ import {
   getPublishedSlugs,
   getStores,
 } from "@/lib/services/catalog";
+import { getSiteUrl } from "@/lib/site";
 
 /** Pre-render every published product in every locale (CLAUDE.md §9). */
 export async function generateStaticParams() {
@@ -59,9 +60,7 @@ export default async function ProductPage({
   const dict = await getDictionary(locale);
   const typedLocale = locale as Locale;
 
-
-  const siteUrl = process.env.SITE_URL ?? "https://button.uz";
-  const productUrl = `${siteUrl}/${locale}/mahsulot/${slug}`;
+  const productUrl = `${getSiteUrl()}/${locale}/mahsulot/${slug}`;
 
   return (
     <article className="mx-auto max-w-6xl px-4 py-6">
