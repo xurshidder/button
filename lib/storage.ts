@@ -15,14 +15,14 @@ import "server-only";
 const BUCKET = process.env.SUPABASE_STORAGE_BUCKET ?? "products";
 
 function config() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, "").replace(
+  const url = process.env.SUPABASE_URL?.replace(/\/+$/, "").replace(
     /\/rest\/v1$/,
     "",
   );
   const key = process.env.SUPABASE_SECRET_KEY;
   if (!url || !key) {
     throw new Error(
-      "Supabase storage is not configured. NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SECRET_KEY must be set in .env.local.",
+      "Supabase storage is not configured. SUPABASE_URL and SUPABASE_SECRET_KEY must be set in .env.local.",
     );
   }
   return { url, key };

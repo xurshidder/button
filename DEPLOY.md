@@ -46,19 +46,18 @@ Vercel → project → **Settings → Environment Variables**. Copy each value f
 |---|---|
 | `DATABASE_URL` | POOLED string, port **6543** |
 | `DIRECT_URL` | DIRECT string, port **5432** |
-| `NEXT_PUBLIC_SUPABASE_URL` | `https://<ref>.supabase.co` — **no trailing `/rest/v1/`** |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `sb_publishable_…` |
+| `SUPABASE_URL` | `https://<ref>.supabase.co` — **no trailing `/rest/v1/`** |
 | `SUPABASE_SECRET_KEY` | `sb_secret_…` — server-only, never prefix with `NEXT_PUBLIC_` |
 | `SUPABASE_STORAGE_BUCKET` | `products` |
 | `ADMIN_PASSWORD` | **choose a new one for production** |
 | `AUTH_SECRET` | generate a fresh one: `openssl rand -base64 32` |
-| `NEXT_PUBLIC_SITE_URL` | the real URL — see below |
+| `SITE_URL` | the real URL — see below |
 
 Apply them to **Production, Preview and Development**.
 
 **Two that must differ from local:**
 
-- `NEXT_PUBLIC_SITE_URL` — this goes into the Telegram order message. Leave it
+- `SITE_URL` — this goes into the Telegram order message. Leave it
   as `localhost` and every customer sends Button a link nobody can open.
 - `ADMIN_PASSWORD` and `AUTH_SECRET` — a development password should never be
   the production one, and both have appeared in this project's chat history.

@@ -60,7 +60,7 @@ export default async function ProductPage({
   const typedLocale = locale as Locale;
 
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://button.uz";
+  const siteUrl = process.env.SITE_URL ?? "https://button.uz";
   const productUrl = `${siteUrl}/${locale}/mahsulot/${slug}`;
 
   return (

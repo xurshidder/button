@@ -5,7 +5,7 @@ import type { NextConfig } from "next";
  * project reference is not duplicated in two places.
  */
 function supabaseHost(): string | undefined {
-  const raw = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const raw = process.env.SUPABASE_URL;
   if (!raw) return undefined;
   try {
     return new URL(raw).hostname;
